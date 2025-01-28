@@ -3,12 +3,21 @@ import Image from "next/image";
 import TradingViewChart from "../components/TradingViewChart";
 import { FiMinus } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
+import ForexDisplay from "@/components/ForexDisplay";
+import StockData from "@/components/StockData";
+import dynamic from "next/dynamic";
+
+const NoSSR = dynamic(() => import("@/components/StockData"), { ssr: false });
 
 export default function Home() {
+  const symbols = ["C:EURUSD", "C:GBPUSD", "C:USDJPY"];
+
   return (
-    <div className="w-full h-full relative flex ">
-      <TradingViewChart />
-      <div className="w-[400px] bg-primaryBlue">
+    <div className="w-full h-fit lg:h-full relative flex flex-col lg:flex-row">
+      <div className="h-[600px] px-6 bg-primaryBlue">
+        <TradingViewChart />
+      </div>
+      <div className="w-full lg:w-[400px] bg-primaryBlue">
         <div className="flex">
           <h2 className="text-[#18a0fb] text-lg px-1 text-center w-full py-3 border-b border-[#18a0fb]">
             OPEN DEAL
