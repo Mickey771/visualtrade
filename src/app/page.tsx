@@ -17,7 +17,7 @@ export default function Home() {
       <div className="h-[600px] px-6 bg-primaryBlue">
         <TradingViewChart />
       </div>
-      <div className="w-full lg:w-[400px] bg-primaryBlue">
+      <div className="w-full lg:w-[400px] pb-10 lg:pb-0 bg-primaryBlue">
         <div className="flex">
           <h2 className="text-[#18a0fb] text-lg px-1 text-center w-full py-3 border-b border-[#18a0fb]">
             OPEN DEAL
