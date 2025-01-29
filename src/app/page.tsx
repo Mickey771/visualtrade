@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-fit lg:h-full relative flex flex-col lg:flex-row">
-      <div className="h-[600px] px-6 bg-primaryBlue">
+      <div className="w-full  h-[600px] lg:h-full pt-6 px-6 bg-primaryBlue">
         <TradingViewChart />
       </div>
       <div className="w-full lg:w-[400px] pb-10 lg:pb-0 bg-primaryBlue">

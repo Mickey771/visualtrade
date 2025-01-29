@@ -15,7 +15,7 @@ export default function RootLayout({
         <Navbar />
         <div className="flex flex-col lg:flex-row h-lvh border-t-2 border-[#040b11]">
           <Sidebar />
-          <div> {children}</div>
+          <div className="w-full"> {children}</div>
         </div>
       </body>
     </html>
