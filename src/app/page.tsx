@@ -7,7 +7,7 @@ import ForexDisplay from "@/components/ForexDisplay";
 import StockData from "@/components/StockData";
 import dynamic from "next/dynamic";
 
-const NoSSR = dynamic(() => import("@/components/StockData"), { ssr: false });
+// const NoSSR = dynamic(() => import("@/components/StockData"), { ssr: false });
 
 export default function Home() {
   const symbols = ["C:EURUSD", "C:GBPUSD", "C:USDJPY"];
