@@ -8,9 +8,9 @@ const Navbar = () => {
   return (
     <nav className="bg-primaryBlue text-white">
       <div className="flex gap-6 py-2">
-        <h1 className="w-[320px] p-4 text-xl md:text-2xl lg:text-3xl border-r-2 border-[#040b11]">
-          Quant Empower AI
-        </h1>
+        <div className="w-[320px] p-4 text-xl md:text-2xl lg:text-3xl border-r-2 border-[#040b11]">
+          <img src="/logo.png" alt="logo" />
+        </div>
 
         <div className="flex gap-5 md:gap:10 lg:gap-14 items-center pr-6 lg:pr-0 justify-end lg:justify-center w-full py-3">
           <div className="zr:hidden sm:flex gap-5 md:gap:10 lg:gap-14">
