@@ -22,7 +22,7 @@ export default function Home() {
           <h2 className="text-[#18a0fb] text-lg px-1 text-center w-full py-3 border-b border-[#18a0fb]">
             OPEN DEAL
           </h2>
-          <h2 className="text-white font-light text-lg px-1 text-center w-full py-3 border-b ">
+          <h2 className="text-white font-light text-lg px-1 text-center w-full py-3 border-b">
             LIMIT ORDER
           </h2>
         </div>

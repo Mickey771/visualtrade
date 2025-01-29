@@ -52,7 +52,7 @@ export default function CryptoData() {
     "ALGO/USDT",
     "XLM/USDT",
     "VET/USDT",
-    "RUNE/USDT",
+    "TRUMP/USDT",
   ];
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function CryptoData() {
 
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
   if (isLoading)
-    return <div className="p-4 text-gray-600">Loading Crypto Data...</div>;
+    return <div className="p-4 text-[#ffffff9e]">Loading Crypto Data...</div>;
 
   return (
     <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1">
@@ -141,15 +141,15 @@ export default function CryptoData() {
         return (
           <div
             key={pair}
-            className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
+            className="border rounded-lg p-4  shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-orange-600">
+              <h3 className="text-lg font-semibold text-red-500">
                 {pair.split("/")[0]}
-                <span className="text-gray-500">/{pair.split("/")[1]}</span>
+                <span className="text-[#ffffff9e]">/{pair.split("/")[1]}</span>
               </h3>
               {data && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#ffffff9e]">
                   {new Date(parseInt(data.data.tick_time)).toLocaleTimeString()}
                 </span>
               )}
@@ -158,19 +158,19 @@ export default function CryptoData() {
             {data ? (
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Bid:</span>
-                  <span className="text-green-600 font-mono">
+                  <span className="text-[#ffffff9e]">Best Bid:</span>
+                  <span className="text-green-500 font-mono">
                     ${bid.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Ask:</span>
-                  <span className="text-red-600 font-mono">
+                  <span className="text-[#ffffff9e]">Best Ask:</span>
+                  <span className="text-red-500 font-mono">
                     ${ask.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t pt-2">
-                  <span className="text-gray-600">Spread:</span>
+                  <span className="text-[#ffffff9e]">Spread:</span>
                   <span className="text-purple-600 font-mono">
                     ${spread.toFixed(2)}
                   </span>

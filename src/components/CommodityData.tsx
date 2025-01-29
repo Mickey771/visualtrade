@@ -25,18 +25,7 @@ export default function CommoditiesData() {
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const commodities = [
-    "GOLD",
-    "Zinc",
-    "COPPER",
-    "Palladium",
-    "Platinum",
-    "Nickel",
-    "Lead",
-    "NGAS",
-    "USOIL",
-    "UKOIL",
-  ];
+  const commodities = ["GOLD", "COPPER", "NGAS", "USOIL", "UKOIL"];
 
   // Format display names
   const commodityNames: { [key: string]: string } = {
@@ -122,7 +111,9 @@ export default function CommoditiesData() {
 
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
   if (isLoading)
-    return <div className="p-4 text-gray-600">Loading Commodities Data...</div>;
+    return (
+      <div className="p-4 text-[#ffffff9e]">Loading Commodities Data...</div>
+    );
 
   return (
     <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1">
@@ -137,14 +128,14 @@ export default function CommoditiesData() {
         return (
           <div
             key={code}
-            className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
+            className="border rounded-lg p-4  shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-amber-600">
+              <h3 className="text-lg font-semibold text-red-500">
                 {commodityNames[code]}
               </h3>
               {data && (
-                <span className="text-[10px] text-gray-500">
+                <span className="text-[12px] text-[#ffffff9e]">
                   {new Date(parseInt(data.data.tick_time)).toLocaleTimeString()}
                 </span>
               )}
@@ -153,20 +144,20 @@ export default function CommoditiesData() {
             {data ? (
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Bid:</span>
-                  <span className="text-green-600 font-mono">
+                  <span className="text-[#ffffff9e]">Best Bid:</span>
+                  <span className="text-green-500 font-mono">
                     ${bid.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Ask:</span>
-                  <span className="text-red-600 font-mono">
+                  <span className="text-[#ffffff9e]">Best Ask:</span>
+                  <span className="text-red-500 font-mono">
                     ${ask.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t pt-2">
-                  <span className="text-gray-600">Spread:</span>
-                  <span className="text-purple-600 font-mono">
+                  <span className="text-[#ffffff9e]">Spread:</span>
+                  <span className="text-purple-500 font-mono">
                     ${spread.toFixed(2)}
                   </span>
                 </div>

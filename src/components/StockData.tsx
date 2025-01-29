@@ -144,18 +144,18 @@ export default function StockData() {
         return (
           <div
             key={stockCode}
-            className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
+            className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-blue-600">
+              <h3 className="text-lg font-semibold text-[#18a0fb]">
                 {stockCode.split(".")[0]}
-                <span className="text-gray-500">
+                <span className="text-[#ffffff9e]">
                   {" "}
                   ({stockCode.split(".")[1]})
                 </span>
               </h3>
               {data && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#ffffff9e]">
                   {new Date(parseInt(data.data.tick_time)).toLocaleTimeString()}
                 </span>
               )}
@@ -164,19 +164,19 @@ export default function StockData() {
             {data ? (
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Bid:</span>
+                  <span className="text-[#ffffff9e]">Best Bid:</span>
                   <span className="text-green-600 font-mono">
                     ${bid.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Ask:</span>
+                  <span className="text-[#ffffff9e]">Best Ask:</span>
                   <span className="text-red-600 font-mono">
                     ${ask.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t pt-2">
-                  <span className="text-gray-600">Spread:</span>
+                  <span className="text-[#ffffff9e]">Spread:</span>
                   <span className="text-purple-600 font-mono">
                     ${spread.toFixed(2)}
                   </span>
@@ -184,26 +184,32 @@ export default function StockData() {
 
                 <div className="grid grid-cols-2 gap-2 pt-2">
                   <div>
-                    <p className="text-sm font-medium text-gray-500">
+                    <p className="text-sm font-medium text-[#ffffff9e]">
                       Top Bids
                     </p>
                     {data.data.bids.slice(0, 3).map((bid, index) => (
-                      <div key={index} className="flex justify-between text-xs">
+                      <div
+                        key={index}
+                        className="flex justify-between text-xs text-purple-600"
+                      >
                         <span>${parseFloat(bid.price).toFixed(2)}</span>
-                        <span className="text-gray-500">
+                        <span className="text-[#ffffff9e]">
                           {parseFloat(bid.volume).toFixed(0)}
                         </span>
                       </div>
                     ))}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-500">
+                    <p className="text-sm font-medium text-[#ffffff9e]">
                       Top Asks
                     </p>
                     {data.data.asks.slice(0, 3).map((ask, index) => (
-                      <div key={index} className="flex justify-between text-xs">
+                      <div
+                        key={index}
+                        className="flex justify-between text-xs text-purple-600"
+                      >
                         <span>${parseFloat(ask.price).toFixed(2)}</span>
-                        <span className="text-gray-500">
+                        <span className="text-[#ffffff9e]">
                           {parseFloat(ask.volume).toFixed(0)}
                         </span>
                       </div>
