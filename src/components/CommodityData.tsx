@@ -25,11 +25,12 @@ export default function CommoditiesData() {
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const commodities = ["GOLD", "COPPER", "NGAS", "USOIL", "UKOIL"];
+  const commodities = ["GOLD", "SILVER", "COPPER", "NGAS", "USOIL", "UKOIL"];
 
   // Format display names
   const commodityNames: { [key: string]: string } = {
     GOLD: "Gold",
+    SILVER: "Silver",
     Zinc: "Zinc",
     COPPER: "Copper",
     Palladium: "Palladium",
