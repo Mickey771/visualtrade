@@ -35,7 +35,7 @@ export default function StockData() {
     "NVDA.US",
     "INTC.US",
     "ADBE.US",
-    "CSCO.US",
+    "TSM.US",
 
     // US Other
     "JPM.US",
@@ -44,19 +44,17 @@ export default function StockData() {
     "JNJ.US",
     "PG.US",
 
-    // Hong Kong
-    "700.HK",
-    "9988.HK",
-    "3690.HK",
-    "1211.HK",
-    "1810.HK",
+    "NVO.US",
+    "PEP.US",
+    "COST.US",
+    "AVGO.US",
+    "CVX.US",
 
-    // china
-    "000001.SH",
-    "399001.SZ",
-    "399006.SZ",
-    "600941.SH",
-    "600519.SH",
+    "HD.US",
+    "ORCL.US",
+    "ASML.US",
+    "ABBV.US",
+    "TM.US",
   ];
 
   useEffect(() => {
