@@ -4,10 +4,11 @@ import StockData from "./StockData";
 import ForexData from "./ForexData";
 import CryptoData from "./CryptoData";
 import CommoditiesData from "./CommodityData";
+import MarketsData from "./StocksIndicesData";
 
 const datafeeds = [
   <ForexData />,
-  <StockData />,
+  <MarketsData />,
   <CryptoData />,
   <CommoditiesData />,
 ];

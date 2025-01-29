@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { wsClient } from "@/utils/websocket";
+import IndicesData from "./IndicesData";
 
 interface PriceLevel {
   price: string;
@@ -55,6 +56,14 @@ export default function StockData() {
     "ASML.US",
     "ABBV.US",
     "TM.US",
+    "NAS100",
+    "FRA40",
+    "GER30",
+    "US500",
+    "US30",
+    "UK100",
+    "HK50",
+    "JPN225",
   ];
 
   useEffect(() => {
@@ -140,85 +149,89 @@ export default function StockData() {
         const spread = ask - bid;
 
         return (
-          <div
-            key={stockCode}
-            className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-[#18a0fb]">
-                {stockCode.split(".")[0]}
-                <span className="text-[#ffffff9e]">
-                  {" "}
-                  ({stockCode.split(".")[1]})
-                </span>
-              </h3>
-              {data && (
-                <span className="text-xs text-[#ffffff9e]">
-                  {new Date(parseInt(data.data.tick_time)).toLocaleTimeString()}
-                </span>
+          <>
+            <div
+              key={stockCode}
+              className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-semibold text-[#18a0fb]">
+                  {stockCode.split(".")[0]}
+                  <span className="text-[#ffffff9e]">
+                    {" "}
+                    ({stockCode.split(".")[1]})
+                  </span>
+                </h3>
+                {data && (
+                  <span className="text-xs text-[#ffffff9e]">
+                    {new Date(
+                      parseInt(data.data.tick_time)
+                    ).toLocaleTimeString()}
+                  </span>
+                )}
+              </div>
+
+              {data ? (
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-[#ffffff9e]">Best Bid:</span>
+                    <span className="text-green-600 font-mono">
+                      ${bid.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[#ffffff9e]">Best Ask:</span>
+                    <span className="text-red-600 font-mono">
+                      ${ask.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between border-t pt-2">
+                    <span className="text-[#ffffff9e]">Spread:</span>
+                    <span className="text-purple-600 font-mono">
+                      ${spread.toFixed(2)}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 pt-2">
+                    <div>
+                      <p className="text-sm font-medium text-[#ffffff9e]">
+                        Top Bids
+                      </p>
+                      {data.data.bids.slice(0, 3).map((bid, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between text-xs text-purple-600"
+                        >
+                          <span>${parseFloat(bid.price).toFixed(2)}</span>
+                          <span className="text-[#ffffff9e]">
+                            {parseFloat(bid.volume).toFixed(0)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-[#ffffff9e]">
+                        Top Asks
+                      </p>
+                      {data.data.asks.slice(0, 3).map((ask, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between text-xs text-purple-600"
+                        >
+                          <span>${parseFloat(ask.price).toFixed(2)}</span>
+                          <span className="text-[#ffffff9e]">
+                            {parseFloat(ask.volume).toFixed(0)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-gray-400 text-sm">No data available</div>
               )}
             </div>
-
-            {data ? (
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-[#ffffff9e]">Best Bid:</span>
-                  <span className="text-green-600 font-mono">
-                    ${bid.toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#ffffff9e]">Best Ask:</span>
-                  <span className="text-red-600 font-mono">
-                    ${ask.toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between border-t pt-2">
-                  <span className="text-[#ffffff9e]">Spread:</span>
-                  <span className="text-purple-600 font-mono">
-                    ${spread.toFixed(2)}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 pt-2">
-                  <div>
-                    <p className="text-sm font-medium text-[#ffffff9e]">
-                      Top Bids
-                    </p>
-                    {data.data.bids.slice(0, 3).map((bid, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between text-xs text-purple-600"
-                      >
-                        <span>${parseFloat(bid.price).toFixed(2)}</span>
-                        <span className="text-[#ffffff9e]">
-                          {parseFloat(bid.volume).toFixed(0)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-[#ffffff9e]">
-                      Top Asks
-                    </p>
-                    {data.data.asks.slice(0, 3).map((ask, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between text-xs text-purple-600"
-                      >
-                        <span>${parseFloat(ask.price).toFixed(2)}</span>
-                        <span className="text-[#ffffff9e]">
-                          {parseFloat(ask.volume).toFixed(0)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="text-gray-400 text-sm">No data available</div>
-            )}
-          </div>
+          </>
         );
       })}
     </div>

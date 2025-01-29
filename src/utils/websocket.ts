@@ -1,4 +1,4 @@
-class WebSocketClient {
+export class WebSocketClient {
   private _ws: WebSocket | null = null;
   private heartbeatCallback: (() => void) | null = null;
 
