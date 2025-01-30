@@ -28,7 +28,7 @@ const Navbar = () => {
               <p className="text-sm md:text-base lg:text-base">$0</p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">FREE BALANCE</p>
+              <p className="text-sm md:text-base lg:text-base">FREE MARGIN</p>
               <p className="text-sm md:text-base lg:text-base">$0</p>
             </div>
             <div>
