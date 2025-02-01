@@ -191,41 +191,6 @@ export default function StockData() {
                       ${spread.toFixed(2)}
                     </span>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-2 pt-2">
-                    <div>
-                      <p className="text-sm font-medium text-[#ffffff9e]">
-                        Top Bids
-                      </p>
-                      {data.data.bids.slice(0, 3).map((bid, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between text-xs text-purple-600"
-                        >
-                          <span>${parseFloat(bid.price).toFixed(2)}</span>
-                          <span className="text-[#ffffff9e]">
-                            {parseFloat(bid.volume).toFixed(0)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-[#ffffff9e]">
-                        Top Asks
-                      </p>
-                      {data.data.asks.slice(0, 3).map((ask, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between text-xs text-purple-600"
-                        >
-                          <span>${parseFloat(ask.price).toFixed(2)}</span>
-                          <span className="text-[#ffffff9e]">
-                            {parseFloat(ask.volume).toFixed(0)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
                 </div>
               ) : (
                 <div className="text-gray-400 text-sm">No data available</div>
