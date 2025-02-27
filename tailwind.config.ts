@@ -9,8 +9,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        base:'hsl(49,92%,54%)',
        primaryBlue:'#0C202E',
-       secondaryBlue:'#040b11'
+       secondaryBlue:'#040b11',
       },
       maxWidth:{
         max:'1200px',
@@ -23,6 +24,9 @@ export default {
         lg: "991px",
         xl: "1280px",
       },
+      fontFamily:{
+        poppins:"Poppins",
+      }
     },
   },
   plugins: [],
