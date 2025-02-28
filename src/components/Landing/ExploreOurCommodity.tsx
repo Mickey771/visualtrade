@@ -103,7 +103,7 @@ const commodities = [
 
 const ExploreOurCommodity = () => {
   return (
-    <section className="py-[50px] md:py-[150px] lg:py-[150px] bg-[rgb(25,31,46)] ">
+    <section className="pt-[50px] md:pt-[150px] lg:pt-[150px] bg-[rgb(25,31,46)] ">
       <div className="w-full px-6 lg:px-0 max-w-max mx-auto flex flex-col items-center">
         <h2 className="text-center text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white">
           <span className="text-[hsl(49,92%,54%)]"> Explore </span>Our Commodity
