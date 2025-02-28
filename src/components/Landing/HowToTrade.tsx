@@ -32,12 +32,12 @@ const hows = [
 
 const HowToTrade = () => {
   return (
-    <section className="py-[100px] bg-[hsl(222,65%,8%)] ">
-      <div className="w-full max-w-max mx-auto flex flex-col items-center">
-        <h2 className="text-center text-[2.5rem] font-bold text-white">
+    <section className="py-[50px] md:py-[100px] lg:py-[150px] bg-[hsl(222,65%,8%)] ">
+      <div className="w-full px-6 lg:px-0 max-w-max mx-auto flex flex-col items-center">
+        <h2 className="text-center text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white">
           How to Trade
         </h2>
-        <p className="font-normal mt-5 text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
+        <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
           Trade with trust & reliability across a range of commodity instruments
           including gold, silver, copper, oil, and coffee, enhancing your
           investment strategy
@@ -50,19 +50,19 @@ const HowToTrade = () => {
                 index % 2 !== 0 && "flex-row-reverse"
               } `}
             >
-              <div className="  bg-[rgb(25,31,46)] p-5 flex flex-col gap-5 w-[380px] rounded-[10px]">
+              <div className="  bg-[rgb(25,31,46)] p-5 flex flex-col gap-5 w-full items-center md:items-start lg:w-[380px] rounded-[10px]">
                 <p className="w-[56px] h-[56px] bg-base rounded-full flex justify-center items-center text-[2rem] font-semibold">
                   {item.id}
                 </p>
                 <h3 className="text-[1.25rem] font-bold text-white">
                   {item.heading}
                 </h3>
-                <p className="w-[300px] text-[rgba(255,255,255,0.7)]">
+                <p className="w-full md:w-[300px] text-center md:text-left text-[rgba(255,255,255,0.7)]">
                   {item.text}
                 </p>
               </div>
               <div
-                className={`w-[380px]  flex ${
+                className={`w-[380px] zr:hidden md:flex ${
                   index % 2 !== 0 && "justify-end"
                 }`}
               >
@@ -81,7 +81,7 @@ const HowToTrade = () => {
             </div>
           ))}
 
-          <div className="absolute top-0 left-[50%] w-[1px] h-full bg-[#495057] flex flex-col gap-[220px] justify-center ">
+          <div className="zr:hidden md:flex absolute top-0 left-[50%] w-[1px] h-full bg-[#495057] flex flex-col gap-[220px] justify-center ">
             {/* <div className="h-[15px] w-[15px] bg-base rounded-full "></div>
             <div className="h-[15px] w-[15px] bg-base rounded-full "></div>
             <div className="h-[15px] w-[15px] bg-base rounded-full "></div> */}

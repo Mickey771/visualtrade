@@ -23,17 +23,17 @@ const articles = [
 
 const LatestArticle = () => {
   return (
-    <section className="py-[150px] bg-[hsl(222,65%,8%)]">
-      <div className="w-full max-w-max mx-auto flex flex-col items-center">
-        <h2 className="text-center text-[2.5rem] font-bold text-white">
+    <section className="py-[50px] md:py-[150px] lg:py-[150px] bg-[hsl(222,65%,8%)] ">
+      <div className="w-full px-6 lg:px-0 max-w-max mx-auto flex flex-col items-center">
+        <h2 className="text-center text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white">
           <span className="text-[hsl(49,92%,54%)]">Latest</span> Article & Blog
         </h2>
-        <p className="font-normal mt-5 text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
+        <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
           Explore insights and ideas, dive into our latest blog posts for expert
           tips, trend analysis, inspirational and motivational content
         </p>
 
-        <div className="mt-20 grid grid-cols-3 gap-10">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {articles.map((item) => (
             <div className="bg-[rgb(25,31,46)] rounded-[10px]">
               <img

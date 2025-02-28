@@ -77,7 +77,7 @@ const Footer = () => {
           <div className="flex flex-col mb-12">
             {/* <span><Logocolored />logo</span> */}
             <Link href={"/"} className="text-4xl  text-left font-bold">
-              <div className="w-full max-w-[250px]">
+              <div className="w-full max-w-[200px] md:max-w-[250px]">
                 <Image
                   src={"/logo2.png"}
                   alt="logo"
@@ -126,26 +126,26 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="text-left w-[60%] grid grid-cols-1 mb:grid-cols-2 md:flex gap-y-[46px] gap-x-0  md:gap-[59px] ">
+          <div className="text-left w-[60%] grid grid-cols-1 md:flex gap-y-[46px] gap-x-0  md:gap-[59px] ">
             {footerData.map((footerItem, index) => {
               return (
                 <div
                   key={index}
                   className={`flex w-full h-fit flex-col gap-5 mb:gap-6 ${
                     index === 1 &&
-                    "border-x border-[rgba(255,255,255,0.1)] px-[50px]"
+                    "md:border-x border-[rgba(255,255,255,0.1)] md:px-[50px]"
                   }`}
                 >
-                  <h2 className="text-white text-lg font-bold font-dm_sans leading-snug border-b  border-[rgba(255,255,255,0.1)] pb-4">
+                  <h2 className="text-white w-full text-lg font-bold font-dm_sans leading-snug border-b  border-[rgba(255,255,255,0.1)] pb-4">
                     {footerItem.heading}
                   </h2>
-                  <div className="flex flex-col gap-[12px] mb:gap-[18px]">
+                  <div className="w-full flex flex-col gap-[12px] mb:gap-[18px]">
                     {footerItem.items.map((item, index) => {
                       let Icon = item.icon;
                       if (item.icon) {
                         return (
                           <p
-                            className="max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4 flex  items-start gap-[6px] text-wrap md:max-w-[257px]  text-[rgba(255,255,255,0.7)] text-[15px] font-normal font-dm_sans leading-tight"
+                            className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4 flex  items-start gap-[6px] text-wrap md:max-w-[257px]  text-[rgba(255,255,255,0.7)] text-[15px] font-normal font-dm_sans leading-tight"
                             key={index}
                           >
                             {item.text}
@@ -154,7 +154,7 @@ const Footer = () => {
                       }
                       return (
                         <Link
-                          className="max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4   font-normal font-dm_sans leading-tight text-[rgba(255,255,255,0.7)] text-[15px]"
+                          className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4   font-normal font-dm_sans leading-tight text-[rgba(255,255,255,0.7)] text-[15px]"
                           key={index}
                           href={`/${item.path}`}
                         >

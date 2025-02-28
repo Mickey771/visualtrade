@@ -5,23 +5,23 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 const Banner = () => {
   return (
     <div
-      className="h-lvh w-full relative"
+      className="h-lvh w-full relative "
       style={{
         backgroundImage: `url(https://script.viserlab.com/visertrade/assets/images/frontend/banner/65f552af8be571710576303.png)`,
       }}
     >
-      <div className="absolute top-0 left-0 radial-bg w-full h-full flex flex-col  justify-center items-center">
-        <h1 className="text-[65px] text-white font-bold text-center ">
-          Trade Commodities With <br /> Confidence In Our Platform
+      <div className="absolute px-6 lg:px-0 top-0 left-0 radial-bg w-full h-full flex flex-col  justify-center items-center">
+        <h1 className="text-[45px] max-w-[900px] md:text-[55px] lg:text-[65px] text-white font-bold text-center ">
+          Trade Commodities With Confidence In Our Platform
         </h1>
-        <p className="max-w-[600px] text-[1rem] font-normal mt-6 text-white text-center">
+        <p className="max-w-[600px] text-sm md:text-[1rem] font-normal mt-6 text-white text-center">
           Optimize your trading strategy with advantageous conditions for
           precious metals and energies, ensuring profitability & resilience
         </p>
 
-        <div className="mt-10 flex gap-20">
-          <div className="w-full flex gap-5">
-            <div className="w-full max-w-[70px]">
+        <div className="mt-10 flex flex-wrap md:flex-nowrap justify-center  gap-5 md:gap-20">
+          <div className="w-full justify-center flex  gap-5">
+            <div className="w-full max-w-[40px] md:max-w-[70px]">
               <Image
                 src={"/bolt.png"}
                 width={0}
@@ -39,8 +39,8 @@ const Banner = () => {
               </p>
             </div>
           </div>
-          <div className="w-[5px] h-[60px] bg-gradient-to-b from-[#ffffff26] via-[#bbbbbb] to-[#ffffff26] "></div>
-          <div className="w-full flex gap-5">
+          <div className="w-[5px] zr:hidden md:flex h-[60px] bg-gradient-to-b from-[#ffffff26] via-[#bbbbbb] to-[#ffffff26] "></div>
+          <div className="w-full justify-center flex gap-5">
             <div className="w-full max-w-[70px]">
               <Image
                 src={"/coin.png"}
@@ -61,14 +61,14 @@ const Banner = () => {
           </div>
         </div>
 
-        <div className="mt-10 flex gap-5">
-          <button className="w-[230px] py-5 bg-base bg-gradient-to-r from-base to-[#fff3be] hover:from-[#fff3be] hover:to-base rounded-[16px] text-[1.125rem] font-semibold flex gap-2 items-center justify-center">
+        <div className="mt-10 flex flex-wrap gap-3 justify-center md:gap-5">
+          <button className="w-[180px] md:w-[230px] py-3 md:py-5 bg-base bg-gradient-to-r from-base to-[#fff3be] hover:from-[#fff3be] hover:to-base rounded-[16px] text-[1.125rem] font-semibold flex gap-2 items-center justify-center">
             Register
             <span>
               <FaArrowTrendUp />
             </span>
           </button>
-          <button className="w-[230px] text-base hover:text-black border border-base py-5 bg-transparent hover:bg-gradient-to-r hover:from-base hover:to-[#fff3be]  rounded-[16px] text-[1.125rem] font-semibold flex gap-2 items-center justify-center">
+          <button className="w-[180px] md:w-[230px] text-base hover:text-black border border-base py-3 md:py-5 bg-transparent hover:bg-gradient-to-r hover:from-base hover:to-[#fff3be]  rounded-[16px] text-[1.125rem] font-semibold flex gap-2 items-center justify-center">
             Login
             <span>
               <FaArrowTrendUp />
