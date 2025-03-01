@@ -14,7 +14,6 @@ export default function Home() {
 
   return (
     <>
-      <LandingNavbar />
       <Banner />
       <WhyTradeCommodities />
       <HowToTrade />
@@ -22,7 +21,6 @@ export default function Home() {
       <DontTake />
       <FrequentlyAskedQuestions />
       <LatestArticle />
-      <Footer />
     </>
   );
 }

@@ -12,7 +12,7 @@ const Banner = () => {
     >
       <div className="absolute px-6 lg:px-0 top-0 left-0 radial-bg w-full h-full flex flex-col  justify-center items-center">
         <h1 className="text-[35px] sm:text-[45px] max-w-[900px] md:text-[55px] lg:text-[65px] text-white font-bold text-center ">
-          Trade Commodities With Confidence In Our Platform
+          Trade With Confidence In Our Platform
         </h1>
         <p className="max-w-[600px] text-sm md:text-[1rem] font-normal mt-6 text-white text-center">
           Optimize your trading strategy with advantageous conditions for

@@ -27,7 +27,7 @@ const LandingNavbar = () => {
       <div className="w-full max-w-max mx-auto py-5 flex px-6 lg:px-0 justify-between text-white">
         <div className="w-full max-w-[150px] md:max-w-[200px] lg:max-w-[250px]">
           <Image
-            src={"/logo2.png"}
+            src={"/logo.png"}
             alt="logo"
             className="w-full object-contain"
             width={0}

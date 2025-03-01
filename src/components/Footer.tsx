@@ -14,16 +14,6 @@ const footerData = [
         path: "",
         icon: false,
       },
-      {
-        text: "Blog",
-        path: "Blog",
-        icon: false,
-      },
-      {
-        text: "Contact",
-        path: "Contact",
-        icon: false,
-      },
     ],
   },
   {
@@ -31,17 +21,12 @@ const footerData = [
     items: [
       {
         text: "Privacy Policy",
-        path: "Privacy-Policy",
+        path: "privacy-policy",
         icon: false,
       },
       {
         text: "Terms of Service",
-        path: "Terms-of-Service",
-        icon: false,
-      },
-      {
-        text: "Trading Policy",
-        path: "Trading-Policy",
+        path: "terms-of-service",
         icon: false,
       },
     ],
@@ -61,7 +46,7 @@ const footerData = [
         path: "",
       },
       {
-        text: "123 Main Street, London",
+        text: "68 Northbourne Ave, Canberra ACT 2601, Australia",
         icon: CiLocationOn,
         path: "",
       },
@@ -79,7 +64,7 @@ const Footer = () => {
             <Link href={"/"} className="text-4xl  text-left font-bold">
               <div className="w-full max-w-[200px] md:max-w-[250px]">
                 <Image
-                  src={"/logo2.png"}
+                  src={"/logo.png"}
                   alt="logo"
                   className="w-full object-contain"
                   width={0}
@@ -92,7 +77,7 @@ const Footer = () => {
 
             <p className="w-[400.36px] mt-[28px] mb-6  text-[rgba(255,255,255,0.7)] text-[15px] text-left font-normal font-['DM Sans'] leading-[30px]">
               The company had consecutive increases in its net income throughout
-              the entirety of 2024, from last record showing an increase of 13%
+              the entirety of 2024, from last record showing an increase of 156%
               per year.
             </p>
             <div className="flex gap-[12px] text-[20px] text-primaryPurple items-center">
