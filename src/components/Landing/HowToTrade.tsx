@@ -38,9 +38,9 @@ const HowToTrade = () => {
           How to Trade
         </h2>
         <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
-          Trade with trust & reliability across a range of commodity instruments
-          including gold, silver, copper, oil, and coffee, enhancing your
-          investment strategy
+          Trade with trust & reliability across a range of instruments including
+          gold, silver, copper, oil, and coffee, enhancing your investment
+          strategy
         </p>
 
         <div className="relative flex flex-col gap-10 mt-10 w-full max-w-[906px] mx-auto  ">

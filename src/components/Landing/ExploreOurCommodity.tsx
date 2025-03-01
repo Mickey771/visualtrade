@@ -106,7 +106,8 @@ const ExploreOurCommodity = () => {
     <section className="pt-[50px] md:pt-[150px] lg:pt-[150px] bg-[rgb(25,31,46)] ">
       <div className="w-full px-6 lg:px-0 max-w-max mx-auto flex flex-col items-center">
         <h2 className="text-center text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white">
-          <span className="text-[hsl(49,92%,54%)]"> Explore </span>Our Commodity
+          <span className="text-[hsl(49,92%,54%)]"> Explore </span>Our
+          Instruments
         </h2>
         <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
           Discover a vast selection of high-quality goods at competitive prices
@@ -116,7 +117,7 @@ const ExploreOurCommodity = () => {
         <div className="w-full overflow-x-scroll">
           <table className="min-w-[900px] w-full bg-[hsl(223,64%,8%)] rounded-[6px] text-white mt-12">
             <thead className="py-4 px-5 text-[rgba(255,255,255,0.5)] font-semibold grid grid-cols-6 w-full text-center border-b border-[rgb(25,31,46)]">
-              <td>Commodities</td>
+              <td>Instruments</td>
               <td>Current Price</td>
               <td>24h%</td>
               <td>7d%</td>

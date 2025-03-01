@@ -3,14 +3,14 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 
 const faqs = [
   {
-    question: "What commodities can be traded?",
+    question: "What can be traded?",
     answer:
-      "Agricultural products, energy resources, precious metals, base metals, and soft commodities.",
+      "Agricultural products, energy resources, precious metals, base metals, and soft.",
   },
   {
-    question: "What is a commodities trade?",
+    question: "What is a trade?",
     answer:
-      "A digital marketplace where traders buy and sell commodities like agricultural products, energy resources, and precious metals.",
+      "A digital marketplace where traders buy and sell like agricultural products, energy resources, and precious metals.",
   },
   {
     question: "What are the benefits?",
