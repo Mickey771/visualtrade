@@ -5,13 +5,13 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 const Banner = () => {
   return (
     <div
-      className="h-lvh w-full relative "
+      className="min-h-lvh w-full relative "
       style={{
         backgroundImage: `url(https://script.viserlab.com/visertrade/assets/images/frontend/banner/65f552af8be571710576303.png)`,
       }}
     >
       <div className="absolute px-6 lg:px-0 top-0 left-0 radial-bg w-full h-full flex flex-col  justify-center items-center">
-        <h1 className="text-[45px] max-w-[900px] md:text-[55px] lg:text-[65px] text-white font-bold text-center ">
+        <h1 className="text-[35px] sm:text-[45px] max-w-[900px] md:text-[55px] lg:text-[65px] text-white font-bold text-center ">
           Trade Commodities With Confidence In Our Platform
         </h1>
         <p className="max-w-[600px] text-sm md:text-[1rem] font-normal mt-6 text-white text-center">
