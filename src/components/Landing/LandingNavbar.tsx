@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const navLinks = [
@@ -35,13 +36,15 @@ const LandingNavbar = () => {
             style={{ width: "100%", height: "100%" }}
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <button className="bg-[hsl(208,7%,46%)] text-sm md:text-base py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
             Login
           </button>
-          <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
-            Signup
-          </button>
+          <Link href={"/register"}>
+            <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
+              Signup
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
