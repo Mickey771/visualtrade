@@ -37,9 +37,11 @@ const LandingNavbar = () => {
           />
         </div>
         <div className="flex gap-3 items-center">
-          <button className="bg-[hsl(208,7%,46%)] text-sm md:text-base py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
-            Login
-          </button>
+          <Link href={"/login"}>
+            <button className="bg-[hsl(208,7%,46%)] text-sm md:text-base py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
+              Login
+            </button>
+          </Link>
           <Link href={"/register"}>
             <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
               Signup

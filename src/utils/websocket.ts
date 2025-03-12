@@ -18,7 +18,7 @@ export class WebSocketClient {
       });
 
       this._ws.addEventListener("message", (event) => {
-        console.log("Received:", event.data);
+        // console.log("Received:", event.data);
       });
 
       this._ws.addEventListener("close", () => {

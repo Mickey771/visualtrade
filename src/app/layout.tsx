@@ -1,3 +1,4 @@
+import ProviderWrapper from "@/components/ProviderWrapper";
 import "./globals.css";
 
 export default function RootLayout({
@@ -8,7 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        <div className="w-full"> {children}</div>
+        <div className="w-full">
+          {" "}
+          <ProviderWrapper>{children}</ProviderWrapper>
+        </div>
       </body>
     </html>
   );

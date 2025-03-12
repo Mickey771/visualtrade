@@ -97,7 +97,7 @@ const RegisterDetails: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://cointex.onrender.com/account/signup/",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/account/signup/`,
         {
           method: "POST",
           headers: {
@@ -157,7 +157,7 @@ const RegisterDetails: React.FC = () => {
         <div className="flex justify-between w-full">
           <div className="w-full h-fit max-w-[200px]">
             <Image
-              src={"/logo2.png"}
+              src={"/logo.png"}
               width={0}
               height={0}
               sizes="100vw"

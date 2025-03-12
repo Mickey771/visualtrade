@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { wsClient } from "@/utils/websocket";
+import { useMarketData } from "@/hooks/useMarketData";
+import { setSelectedPair } from "@/redux/reducers/tradeReducer";
 
 interface PriceLevel {
   price: string;
@@ -18,14 +20,13 @@ interface CommodityData {
 }
 
 export default function CommoditiesData() {
-  const [commodityData, setCommodityData] = useState<
-    Record<string, CommodityData>
-  >({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const commodities = ["GOLD", "SILVER", "COPPER", "NGAS", "USOIL", "UKOIL"];
+  const {
+    pairs: commodities,
+    marketData: commodityData,
+    isLoading,
+    error,
+    dispatch,
+  } = useMarketData();
 
   // Format display names
   const commodityNames: { [key: string]: string } = {
@@ -41,74 +42,6 @@ export default function CommoditiesData() {
     USOIL: "US Crude Oil",
     UKOIL: "UK Crude Oil",
   };
-
-  useEffect(() => {
-    const wsUrl = `wss://quote.tradeswitcher.com/quote-b-ws-api?token=${process.env.NEXT_PUBLIC_ALL_TICK_API_KEY}`;
-
-    wsClient.setHeartbeatCallback(() => {
-      timerRef.current = setInterval(() => {
-        const heartbeat = {
-          cmd_id: 22000,
-          seq_id: 123,
-          trace: "commodities-heartbeat",
-          data: {},
-        };
-        wsClient.sendMessage(JSON.stringify(heartbeat));
-      }, 10000);
-    });
-
-    wsClient.connect(wsUrl);
-
-    const ws = wsClient.ws;
-    if (ws) {
-      const handleMessage = (event: MessageEvent) => {
-        const data: CommodityData = JSON.parse(event.data);
-
-        if (data.cmd_id === 22999) {
-          setCommodityData((current) => ({
-            ...current,
-            [data.data.code]: data,
-          }));
-        }
-      };
-
-      const handleError = (error: Event) => {
-        setError("Connection error");
-        setIsLoading(false);
-      };
-
-      const handleOpen = () => {
-        setIsLoading(false);
-        // Send subscription message
-        const subscribeMsg = {
-          cmd_id: 22002,
-          seq_id: 123,
-          trace: "commodities-subscription-001",
-          data: {
-            symbol_list: commodities.map((code) => ({
-              code: code.toUpperCase(),
-              depth_level: 1,
-            })),
-          },
-        };
-        wsClient.sendMessage(JSON.stringify(subscribeMsg));
-      };
-
-      ws.addEventListener("message", handleMessage);
-      ws.addEventListener("error", handleError);
-      ws.addEventListener("open", handleOpen);
-
-      return () => {
-        ws.removeEventListener("message", handleMessage);
-        ws.removeEventListener("error", handleError);
-        ws.removeEventListener("open", handleOpen);
-        if (timerRef.current) {
-          clearInterval(timerRef.current);
-        }
-        wsClient.disconnect();
-      };
-    }
-  }, []);
 
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
   if (isLoading)
@@ -129,6 +62,7 @@ export default function CommoditiesData() {
         return (
           <div
             key={code}
+            onClick={() => dispatch(setSelectedPair(code))}
             className="border rounded-lg p-4  shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex justify-between items-center mb-3">

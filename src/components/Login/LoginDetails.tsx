@@ -1,7 +1,9 @@
+import { setAuth, setUser } from "@/redux/reducers/userReducer";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useDispatch } from "react-redux";
 
 // Define types for form data
 interface LoginFormData {
@@ -11,11 +13,12 @@ interface LoginFormData {
 
 // Define types for API response
 interface LoginApiResponse {
-  data: {
+  success: boolean;
+  data?: {
     message?: string;
-    success?: boolean;
-    access?: string;
+    user?: any;
   };
+  message?: string;
 }
 
 const LoginDetails: React.FC = () => {
@@ -31,6 +34,7 @@ const LoginDetails: React.FC = () => {
   const [success, setSuccess] = useState<string>("");
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   // Handle input changes with proper typing
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -56,34 +60,33 @@ const LoginDetails: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://cointex.onrender.com/account/login/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      // Use Next.js 14 API route instead of direct call to external API
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        // Include credentials to ensure cookies are saved
+        credentials: "include",
+      });
 
-      const data: LoginApiResponse = await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.data.message || "Login failed");
+        throw new Error(data.message || data.data?.message || "Login failed");
       }
 
       setSuccess("Login successful!");
 
-      console.log(data);
+      // Handle successful login - we don't need to manually set cookies
+      // as the API route already handled that with HTTP-only cookies
+      if (data.success) {
+        // Update Redux state
+        dispatch(setAuth(true));
+        dispatch(setUser(data.data));
 
-      // Handle successful login
-      if (data.data.access) {
-        // Store token in localStorage or a secure cookie
-        localStorage.setItem("token", data.data.access);
-
-        // Redirect user or handle successful login (e.g., redirect to dashboard)
-        // You can use Next.js router for redirection
+        // Redirect user to dashboard
         router.push("/trade");
       }
     } catch (err) {
@@ -116,7 +119,7 @@ const LoginDetails: React.FC = () => {
         <div className="flex justify-between w-full">
           <div className="w-full h-fit max-w-[200px]">
             <Image
-              src={"/logo2.png"}
+              src={"/logo.png"}
               width={0}
               height={0}
               sizes="100vw"

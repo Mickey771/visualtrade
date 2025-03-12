@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { WebSocketClient, wsClient } from "@/utils/websocket";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/reducers";
+import {
+  setSelectedPair,
+  setSelectedPairPrice,
+} from "@/redux/reducers/tradeReducer";
 
 interface PriceLevel {
   price: string;
@@ -23,9 +29,13 @@ export default function MarketsData() {
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const { selectedPair } = useSelector((store: RootState) => store.trade);
+
+  const dispatch = useDispatch();
+
   // WebSocket URLs
-  const stockWsUrl = `wss://quote.tradeswitcher.com/quote-stock-b-ws-api?token=7f07d4c7a2120ed91466326472d73e08-c-app`;
-  const indexWsUrl = `wss://quote.tradeswitcher.com/quote-b-ws-api?token=7f07d4c7a2120ed91466326472d73e08-c-app`; // Replace with actual indices URL
+  const stockWsUrl = `wss://quote.tradeswitcher.com/quote-stock-b-ws-api?token=${process.env.NEXT_PUBLIC_ALL_TICK_API_KEY}`;
+  const indexWsUrl = `wss://quote.tradeswitcher.com/quote-b-ws-api?token=${process.env.NEXT_PUBLIC_ALL_TICK_API_KEY}`; // Replace with actual indices URL
 
   // Combined list of stocks and indices
   const markets = [
@@ -122,6 +132,14 @@ export default function MarketsData() {
           ...current,
           [data.data.code]: data,
         }));
+
+        if (data.data.code === selectedPair) {
+          const selectedPairBid = data.data?.bids?.[0]?.price || "0";
+          const selectedPairAsk = data.data?.asks?.[0]?.price || "0";
+          const bid = parseFloat(selectedPairBid);
+          const ask = parseFloat(selectedPairAsk);
+          dispatch(setSelectedPairPrice({ bid, ask }));
+        }
       }
     };
 
@@ -214,6 +232,7 @@ export default function MarketsData() {
         return (
           <div
             key={code}
+            onClick={() => dispatch(setSelectedPair(code))}
             className={`border rounded-lg p-4  shadow-sm hover:shadow-md transition-shadow ${
               isIndex ? "border-indigo-100" : "border-blue-100"
             }`}

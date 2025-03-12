@@ -1,58 +1,65 @@
 // "use client";
-import React, { JSX, useState } from "react";
-import StockData from "./StockData";
+import React, { JSX, ReactElement, useEffect, useState } from "react";
 import ForexData from "./ForexData";
 import CryptoData from "./CryptoData";
 import CommoditiesData from "./CommodityData";
 import MarketsData from "./StocksIndicesData";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/reducers";
+import { setSelectedFeed } from "@/redux/reducers/tradeReducer";
 
 const datafeeds = [
-  <ForexData />,
-  <MarketsData />,
-  <CryptoData />,
-  <CommoditiesData />,
+  {
+    title: "forex",
+    component: <ForexData />,
+  },
+  {
+    title: "stocks",
+    component: <MarketsData />,
+  },
+  {
+    title: "crypto",
+    component: <CryptoData />,
+  },
+  {
+    title: "commodity",
+    component: <CommoditiesData />,
+  },
 ];
 
 const Sidebar = () => {
-  const [activeDatafeed, setActiveDatafeed] = useState(0);
+  const { selectedFeed } = useSelector((store: RootState) => store.trade);
+  const [activeDatafeed, setActiveDatafeed] = useState<ReactElement>();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setActiveDatafeed(
+      datafeeds.find((item) => item.title === selectedFeed)?.component
+    );
+  }, [selectedFeed]);
+
   return (
     <div className="w-full lg:w-[400px] bg-primaryBlue h-full flex flex-col items-center py-3 px-5">
-      {/* <input
-        type="text"
-        className="w-full py-2 px-3 bg-secondaryBlue"
-        placeholder="Search"
-      /> */}
-
-      <div className="grid grid-cols-4 gap-4 mt-3 w-full px-2 pb-2 justify-center">
-        <button
-          onClick={() => setActiveDatafeed(0)}
-          className="text-white text-sm font-light"
-        >
-          FOREX
-        </button>
-        <button
-          onClick={() => setActiveDatafeed(1)}
-          className="text-white text-sm font-light"
-        >
-          STOCKS
-        </button>
-        <button
-          onClick={() => setActiveDatafeed(2)}
-          className="text-white text-sm font-light"
-        >
-          CRYPTO
-        </button>
-        <button
-          onClick={() => setActiveDatafeed(3)}
-          className="text-white text-sm font-light"
-        >
-          COM
-        </button>
+      <div className="grid grid-cols-4 gap-3 mt-3 w-full px-2 pb-2 justify-center">
+        {datafeeds.map((item, index) => {
+          return (
+            <button
+              key={index}
+              onClick={() => dispatch(setSelectedFeed(item.title))}
+              className={`text-white uppercase text-sm pb-1 font-light ${
+                item.title === selectedFeed && "border-b"
+              }`}
+            >
+              {item.title}
+            </button>
+          );
+        })}
       </div>
 
       <div className="w-full max-h-[300px] lg:max-h-[650px] overflow-y-scroll">
         {/* <ForexData /> */}
-        {datafeeds[activeDatafeed]}
+        {activeDatafeed}
       </div>
     </div>
   );
