@@ -34,7 +34,7 @@ const PlaceTrade = () => {
     if (quantity >= balance) {
       newQuantity = balance;
     } else {
-      newQuantity = quantity + 5000;
+      newQuantity = quantity + balance / 100;
     }
     // Calculate new margin to check against balance
     const newMargin = Math.round((newQuantity / leverage) * 0.01);
@@ -51,7 +51,7 @@ const PlaceTrade = () => {
 
   const decreaseQuantity = () => {
     if (quantity > 5000) {
-      const newQuantity = quantity - 5000;
+      const newQuantity = quantity - balance / 100;
       setQuantity(newQuantity);
       updateMarginFromQuantity(newQuantity);
     }
@@ -208,72 +208,19 @@ const PlaceTrade = () => {
         <div className="flex justify-between items-center mt-3">
           <p className="text-gray-400">LEVERAGE:</p>
           <div className="flex items-center">
-            <span className="text-white font-semibold mr-1">1:</span>
-            <input
-              type="number"
-              className="w-16 bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
-              value={leverage}
-              onChange={(e) => {
-                const newLeverage = Math.max(1, parseInt(e.target.value) || 1);
-                setLeverage(newLeverage);
-                // Update margin based on new leverage
-                const newMargin = Math.round((quantity / newLeverage) * 0.01);
-                setMargin(newMargin);
-              }}
-              min="1"
-              max="500"
-            />
+            <span className="text-white font-semibold mr-1">1:200</span>
           </div>
         </div>
         <div className="flex justify-between items-center mt-3">
           <p className="text-gray-400">CHANGE:</p>
           <div className="flex items-center">
-            <input
-              type="number"
-              className={`w-16 px-2 py-1 rounded border border-gray-700 focus:border-blue-500 focus:outline-none font-semibold ${
-                change >= 0
-                  ? "text-green-500 bg-green-900/20"
-                  : "text-red-600 bg-red-900/20"
-              }`}
-              value={change}
-              onChange={(e) => setChange(parseFloat(e.target.value) || 0)}
-              step="0.01"
-            />
-            <span
-              className={`font-semibold ml-1 ${
-                change >= 0 ? "text-green-500" : "text-red-600"
-              }`}
-            >
-              %
-            </span>
+            <span className="text-green-500 font-semibold mr-1">1.5%</span>
           </div>
         </div>
         <div className="flex justify-between items-center mt-3">
           <p className="text-gray-400">MARGIN:</p>
           <div className="flex items-center">
-            <span className="text-green-500 font-semibold mr-1">$</span>
-            <input
-              type="number"
-              className="w-16 bg-green-900/20 text-green-500 px-2 py-1 rounded border border-gray-700 focus:border-blue-500 focus:outline-none font-semibold"
-              value={margin}
-              onChange={(e) => {
-                const newMargin = Math.max(1, parseInt(e.target.value) || 1);
-                // Check if new margin exceeds balance
-                if (newMargin > balance) {
-                  setErrorMessage("Margin exceeds available balance");
-                  setTimeout(() => setErrorMessage(""), 3000);
-                  return;
-                }
-
-                setMargin(newMargin);
-                // Calculate new leverage based on margin change
-                const newLeverage = Math.round((quantity * 0.01) / newMargin);
-                if (newLeverage >= 1) {
-                  setLeverage(newLeverage);
-                }
-              }}
-              min="1"
-            />
+            <span className="text-green-500 font-semibold mr-1">$200</span>
           </div>
         </div>
 
@@ -285,7 +232,20 @@ const PlaceTrade = () => {
             <FaMinus size={24} />
           </button>
           <div className="flex flex-col items-center gap-1">
-            <h1 className="text-2xl">{quantity.toLocaleString()}</h1>
+            {/* <h1 className="text-2xl">{quantity.toLocaleString()}</h1> */}
+            <input
+              className="text-2xl bg-transparent text-center focus:outline-none w-full"
+              type="number"
+              name="quantity"
+              value={quantity}
+              onChange={(e) => {
+                if (parseInt(e.target.value) > balance) {
+                  setQuantity(balance);
+                  return;
+                }
+                setQuantity(parseInt(e.target.value));
+              }}
+            />
             <p className="text-sm">USD</p>
           </div>
           <button

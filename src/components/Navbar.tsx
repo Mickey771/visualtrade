@@ -1,7 +1,7 @@
 import { RootState } from "@/redux/reducers";
-import { logout } from "@/redux/reducers/userReducer";
+import { logout, setUser } from "@/redux/reducers/userReducer";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaWallet } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -17,6 +17,32 @@ const Navbar = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const fetchProfileDetails = async () => {
+    const endpoint = `/api/user/profile`;
+
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log("profile data", data);
+
+    if (!response.ok) {
+      console.log(response);
+      throw new Error(data.message || `Failed to fetch profile`);
+    }
+
+    dispatch(setUser({ ...user, ...data.data }));
+  };
+
+  useEffect(() => {
+    fetchProfileDetails();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -49,47 +75,59 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-primaryBlue text-white">
-      <div className="flex gap-6 py-2">
+    <nav className="relative bg-primaryBlue text-white">
+      <div className=" flex gap-6 py-2">
         <div className="w-[320px] p-4 text-xl md:text-2xl lg:text-3xl border-r-2 border-[#040b11]">
           <img src="/logo.png" alt="logo" />
         </div>
 
-        <div className="zr:hidden sm:flex flex gap-5 md:gap:10 lg:gap-14 items-center  justify-end lg:justify-center w-full py-3 border-r-2 border-[#040b11]">
-          <div className="flex gap-5 md:gap:10 lg:gap-10">
+        <div className="absolute md:relative  top-full left-0 flex gap-5 md:gap:10 lg:gap-14 items-center  justify-center md:justify-end lg:justify-center w-full py-3 border-r-2 border-[#040b11]">
+          <div className="flex gap-3 sm:gap-5 md:gap:10 lg:gap-10">
             <div>
-              <p className="text-sm md:text-base lg:text-base">CREDIT</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                CREDIT
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.credit}
               </p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">EQUITY</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                EQUITY
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.equity}
               </p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">MARGIN</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                MARGIN
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.margin}
               </p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">FREE MARGIN</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                FREE MARGIN
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.free_margin}
               </p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">OPEN P&L</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                OPEN P&L
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.open_p_and_l}
               </p>
             </div>
             <div>
-              <p className="text-sm md:text-base lg:text-base">CLOSE P&L</p>
-              <p className="text-sm md:text-base lg:text-base">
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
+                CLOSE P&L
+              </p>
+              <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${user.close_p_and_l}
               </p>
             </div>
