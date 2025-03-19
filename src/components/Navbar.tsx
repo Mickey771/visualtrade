@@ -1,9 +1,11 @@
 import { RootState } from "@/redux/reducers";
 import { logout, setUser } from "@/redux/reducers/userReducer";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaWallet } from "react-icons/fa";
+import { GoHistory } from "react-icons/go";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoExpandOutline, IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePersonOutline } from "react-icons/md";
@@ -11,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isLogout, setIsLogout] = useState(false);
+  const [isDropdown, setIsDropDown] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const { user } = useSelector((store: RootState) => store.user);
@@ -150,8 +153,31 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="zr:hidden xl:flex gap-5 items-center pl-4 border-l-2 border-[#040b11]">
-          <span>
+        <div className="flex gap-5 items-center px-4 border-l-2 border-[#040b11]">
+          <div
+            className={`absolute xl:relative top-full xl:top-auto right-0 bg-primaryBlue p-5 xl:p-0 flex gap-5 items-center ${
+              isDropdown ? "flex" : "zr:hidden xl:flex"
+            } `}
+          >
+            <Link href={"/transactions"}>
+              <span>
+                <GoHistory size={30} />
+              </span>
+            </Link>
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="  z-[99] text-primaryBlue bg-white hover:bg-primaryBlue hover:text-white border border-white  py-3 px-6 rounded-[6px] disabled:opacity-70"
+            >
+              {isLoggingOut ? "Logging out..." : "Logout"}
+            </button>
+          </div>
+          <button onClick={() => setIsDropDown((prev) => !prev)}>
+            <span className="zr:flex xl:hidden text-base ">
+              <BsThreeDotsVertical />
+            </span>
+          </button>
+          {/* <span>
             <MdOutlinePersonOutline size={30} />
           </span>
           <span>
@@ -176,7 +202,7 @@ const Navbar = () => {
                 {isLoggingOut ? "Logging out..." : "Logout"}
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>

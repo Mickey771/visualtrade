@@ -49,9 +49,7 @@ export function useMarketData() {
             [data.data.code]: data,
           }));
 
-          // console.log("data", data);
-
-          if (data.data.code === selectedPair) {
+          if (data.data.code === selectedPair.split("/").join("")) {
             const selectedPairBid = data.data?.bids?.[0]?.price || "0";
             const selectedPairAsk = data.data?.asks?.[0]?.price || "0";
             const bid = parseFloat(selectedPairBid);

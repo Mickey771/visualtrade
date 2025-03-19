@@ -133,7 +133,12 @@ export default function MarketsData() {
           [data.data.code]: data,
         }));
 
+        // console.log("selected", data.data.code, selectedPair);
+
         if (data.data.code === selectedPair) {
+          console.log("hello");
+          console.log("selectedPair", selectedPair);
+
           const selectedPairBid = data.data?.bids?.[0]?.price || "0";
           const selectedPairAsk = data.data?.asks?.[0]?.price || "0";
           const bid = parseFloat(selectedPairBid);
@@ -212,7 +217,7 @@ export default function MarketsData() {
         indexClient.disconnect();
       };
     }
-  }, []);
+  }, [selectedPair]);
 
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
   if (isLoading)
