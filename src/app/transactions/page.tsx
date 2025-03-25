@@ -49,6 +49,7 @@ const TransactionsPage = () => {
           currentPage={currentPage}
           hasNextPage={hasNextPage}
           formatPair={formatPair}
+          isClosed={false}
         />
       </div>
     </div>

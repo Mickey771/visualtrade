@@ -1,5 +1,5 @@
 import { useDisclosure } from "@/hooks/useDisclosure";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClosePositionModal from "../Modals/ClosePositionModal";
 import { useDispatch } from "react-redux";
 import { setSelectedTransaction } from "@/redux/reducers/tradeReducer";
@@ -13,12 +13,26 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
   currentPage,
   hasNextPage,
   formatPair,
+  isClosed,
 }) => {
   const [isHovering, setIsHoveering] = useState("");
+  const [filteredTransactions, setFilteredTransactions] = useState<
+    Transaction[]
+  >([]);
 
   const closePositionModal = useDisclosure();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isClosed) {
+      setFilteredTransactions(transactions);
+    } else {
+      console.log("transactions", transactions);
+
+      setFilteredTransactions(transactions.filter((item) => !item.closed));
+    }
+  }, [transactions]);
   return (
     <>
       {loading && (
@@ -69,7 +83,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-700">
-                {transactions?.map((transaction) => (
+                {filteredTransactions?.map((transaction) => (
                   <tr
                     key={transaction.id}
                     className="hover:bg-gray-700 relative"
@@ -107,7 +121,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                       {formatDate(transaction.created_at)}
                     </td>
 
-                    {isHovering === transaction.id && (
+                    {isHovering === transaction.id && isClosed && (
                       <div className="absolute top-0 left-0 w-full h-full bg-[#0000008b] flex justify-end py-1 px-4">
                         <button
                           onClick={() => {

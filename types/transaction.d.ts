@@ -11,9 +11,11 @@ interface Transaction {
     quantity?: number;
     order_type?: string;
     boughtAt?: string;
+    closePrice?: string;
   };
   created_at: string;
   updated_at: string;
+  closed: boolean;
 }
 
 interface TransactionsResponse {
@@ -32,6 +34,7 @@ interface TransactionsTableProps {
   currentPage: number;
   hasNextPage: boolean;
   formatPair: (dateString: string) => string;
+  isClosed: boolean;
 }
 
 interface Modal {

@@ -38,6 +38,7 @@ const page = () => {
               currentPage={currentPage}
               hasNextPage={hasNextPage}
               formatPair={formatPair}
+              isClosed={true}
             />
           </div>
         </div>
