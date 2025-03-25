@@ -8,6 +8,8 @@ interface InitialState {
     bid: number;
     ask: number;
   };
+  selectedTransaction: Transaction | null;
+  transactions: Transaction[];
 }
 
 const initialState: InitialState = {
@@ -18,6 +20,8 @@ const initialState: InitialState = {
     bid: 0,
     ask: 0,
   },
+  selectedTransaction: null,
+  transactions: [],
 };
 
 const tradeSlice = createSlice({
@@ -36,6 +40,12 @@ const tradeSlice = createSlice({
     setSelectedPairPrice: (state, action) => {
       state.selectedPairPrice = action.payload;
     },
+    setSelectedTransaction: (state, action) => {
+      state.selectedTransaction = action.payload;
+    },
+    setTransactions: (state, action) => {
+      state.transactions = action.payload;
+    },
   },
 });
 
@@ -44,5 +54,7 @@ export const {
   setSelectedPair,
   setIsLoading,
   setSelectedPairPrice,
+  setSelectedTransaction,
+  setTransactions,
 } = tradeSlice.actions;
 export default tradeSlice.reducer;

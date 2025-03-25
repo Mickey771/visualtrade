@@ -40,7 +40,7 @@ const Sidebar = () => {
   }, [selectedFeed]);
 
   return (
-    <div className="w-full lg:w-[400px] bg-primaryBlue h-full flex flex-col items-center py-3 px-5">
+    <div className="w-full lg:min-w-[200px] lg:max-w-[350px] bg-primaryBlue h-full flex flex-col items-center py-3 px-5">
       <div className="grid grid-cols-4 gap-3 mt-3 w-full px-2 pb-2 justify-center">
         {datafeeds.map((item, index) => {
           return (
