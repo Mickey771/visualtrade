@@ -56,7 +56,10 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
       {!loading && !error && transactions?.length > 0 && (
         <>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-gray-800 rounded-lg overflow-hidden">
+            <table
+              //   onMouseLeave={() => setIsHoveering("")}
+              className="min-w-full bg-gray-800 rounded-lg overflow-hidden"
+            >
               <thead className="bg-gray-900">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -87,8 +90,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                   <tr
                     key={transaction.id}
                     className="hover:bg-gray-700 relative"
-                    onMouseEnter={() => setIsHoveering(transaction.id)}
-                    onMouseLeave={() => setIsHoveering("")}
+                    onClick={() => setIsHoveering(transaction.id)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {transaction.id.slice(0, 8)}
