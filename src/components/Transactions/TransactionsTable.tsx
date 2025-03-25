@@ -30,7 +30,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     } else {
       console.log("transactions", transactions);
 
-      setFilteredTransactions(transactions.filter((item) => !item.closed));
+      setFilteredTransactions(transactions?.filter((item) => !item.closed));
     }
   }, [transactions]);
   return (
