@@ -17,6 +17,7 @@ const page = () => {
     handlePageChange,
     hasNextPage,
     currentPage,
+    fetchTransactions,
   } = useTransactions();
   return (
     <div className="flex bg-primaryBlue pt-14 md:pt-0 flex-col lg:flex-row min-h-lvh border-t-2 border-[#040b11]">
@@ -42,24 +43,13 @@ const page = () => {
             />
           </div>
         </div>
-        <PlaceTrade />
+        <PlaceTrade
+          fetchTransactions={fetchTransactions}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
 };
-
-{
-  /* <div className="flex bg-primaryBlue pt-14 md:pt-0 flex-col lg:flex-row h-lvh border-t-2 border-[#040b11]">
-  <Sidebar />
-  <div className="w-full">
-    <div className="w-full h-fit lg:h-full relative flex flex-col lg:flex-row">
-      <div className="w-full  h-[400px] lg:h-full  pt-6 px-6 bg-primaryBlue">
-        <TradingViewChart />
-      </div>
-      <PlaceTrade />
-    </div>
-  </div>
-</div>; */
-}
 
 export default page;

@@ -37,6 +37,8 @@ export const useTransactions = () => {
       const data: TransactionsResponse = await response.json();
 
       if (data.status === "success") {
+        console.log("transactions", data);
+
         dispatch(setTransactions(data.data));
         setHasNextPage(data.has_next);
       } else {
@@ -140,5 +142,6 @@ export const useTransactions = () => {
     handlePageChange,
     hasNextPage,
     currentPage,
+    fetchTransactions,
   };
 };

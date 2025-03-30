@@ -5,7 +5,10 @@ import { RootState } from "@/redux/reducers";
 import axios from "axios";
 import { setUser } from "@/redux/reducers/userReducer";
 
-const PlaceTrade = () => {
+const PlaceTrade: React.FC<{
+  fetchTransactions: (page: number) => Promise<void>;
+  currentPage: number;
+}> = ({ fetchTransactions, currentPage }) => {
   // State management
   const [activeTab, setActiveTab] = useState("open");
   const [quantity, setQuantity] = useState(50000);
@@ -137,6 +140,8 @@ const PlaceTrade = () => {
         setUser({ ...user.user, balance: user.user.balance - quantity })
       );
 
+      fetchTransactions(currentPage);
+
       // Optionally reset form or refresh data
       if (activeTab === "limit") {
         setLimitPrice("");
@@ -237,7 +242,7 @@ const PlaceTrade = () => {
               className="text-2xl bg-transparent text-center focus:outline-none w-full"
               type="number"
               name="quantity"
-              value={quantity}
+              value={quantity.toFixed(2)}
               onChange={(e) => {
                 if (parseInt(e.target.value) > balance) {
                   setQuantity(balance);
