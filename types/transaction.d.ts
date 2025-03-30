@@ -4,18 +4,19 @@ interface Transaction {
   id: string;
   type: "BUY" | "SELL";
   price: number;
+  closed?: boolean;
+  created_at: string;
   meta_data: {
     pair: string;
-    margin?: number;
-    leverage?: number;
+    leverage?: string;
+    margin?: string;
     quantity?: number;
-    order_type?: string;
-    boughtAt?: string;
-    closePrice?: string;
+    boughtAt: string;
+    closedAt?: string;
+    order_type?: "market" | "limit";
+    profitLoss?: number;
+    profitLossPercentage?: number;
   };
-  created_at: string;
-  updated_at: string;
-  closed: boolean;
 }
 
 interface TransactionsResponse {
