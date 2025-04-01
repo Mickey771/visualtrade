@@ -1,3 +1,4 @@
+// hooks/useTransactions.ts
 import { RootState } from "@/redux/reducers";
 import { setTransactions } from "@/redux/reducers/tradeReducer";
 import { useRouter } from "next/navigation";
@@ -5,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useTransactions = () => {
-  // const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,8 +37,6 @@ export const useTransactions = () => {
       const data: TransactionsResponse = await response.json();
 
       if (data.status === "success") {
-        console.log("transactions", data);
-
         dispatch(setTransactions(data.data));
         setHasNextPage(data.has_next);
       } else {

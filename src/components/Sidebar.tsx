@@ -34,6 +34,9 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!selectedFeed) {
+      setActiveDatafeed(datafeeds[0].component);
+    }
     setActiveDatafeed(
       datafeeds.find((item) => item.title === selectedFeed)?.component
     );

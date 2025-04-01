@@ -29,7 +29,7 @@ const page = () => {
               <TradingViewChart />
             </div>
           </div>
-          <div className="w-full px-6">
+          {/* <div className="w-full px-6">
             <TransactionsTable
               loading={loading}
               error={error}
@@ -41,7 +41,7 @@ const page = () => {
               formatPair={formatPair}
               isClosed={true}
             />
-          </div>
+          </div> */}
         </div>
         <PlaceTrade
           fetchTransactions={fetchTransactions}

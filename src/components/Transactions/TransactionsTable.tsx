@@ -1,11 +1,13 @@
 import { useDisclosure } from "@/hooks/useDisclosure";
 import React, { useEffect, useState } from "react";
 import ClosePositionModal from "../Modals/ClosePositionModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedPair,
   setSelectedTransaction,
 } from "@/redux/reducers/tradeReducer";
+import { RootState } from "@/redux/reducers";
+import { useRealTimePLCalculator } from "../useRealTimePLCalculator";
 
 const TransactionsTable: React.FC<TransactionsTableProps> = ({
   loading,
@@ -18,13 +20,25 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
   formatPair,
   isClosed,
 }) => {
-  const [isHovering, setIsHoveering] = useState("");
+  const [isHovering, setIsHovering] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
 
+  const { selectedTransaction, selectedPairPrice } = useSelector(
+    (store: RootState) => store.trade
+  );
+
   const closePositionModal = useDisclosure();
   const dispatch = useDispatch();
+
+  // Get the real-time P/L calculator
+  const {
+    plData,
+    wsConnected,
+    formatPL,
+    formatPLPercentage,
+  } = useRealTimePLCalculator(transactions);
 
   useEffect(() => {
     if (!isClosed) {
@@ -38,38 +52,54 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
   // Helper function to format profit/loss with color
   const formatProfitLoss = (transaction: Transaction) => {
-    if (!transaction.closed) return "-";
+    if (transaction.closed) {
+      // For closed positions, use stored profit/loss
+      const profitLoss = transaction.meta_data.profitLoss;
+      if (profitLoss === undefined) return "-";
 
-    const profitLoss = transaction.meta_data.profitLoss;
-    if (profitLoss === undefined) return "-";
+      const formattedValue = parseFloat(profitLoss.toString()).toFixed(2);
+      const isPositive = parseFloat(profitLoss.toString()) >= 0;
 
-    const formattedValue = parseFloat(profitLoss.toString()).toFixed(2);
-    const isPositive = parseFloat(profitLoss.toString()) >= 0;
+      return (
+        <span className={isPositive ? "text-green-500" : "text-red-500"}>
+          {isPositive ? "+" : ""}
+          {formattedValue}
+        </span>
+      );
+    } else {
+      // For open positions, use real-time calculations
+      const realtimePL = plData[transaction.id];
+      if (!realtimePL)
+        return <span className="text-gray-400">Calculating...</span>;
 
-    return (
-      <span className={isPositive ? "text-green-500" : "text-red-500"}>
-        {isPositive ? "+" : ""}
-        {formattedValue}
-      </span>
-    );
+      return formatPL(realtimePL.amount);
+    }
   };
 
   // Helper function to format profit/loss percentage
   const formatProfitLossPercentage = (transaction: Transaction) => {
-    if (!transaction.closed) return "-";
+    if (transaction.closed) {
+      // For closed positions, use stored percentage
+      const percentage = transaction.meta_data.profitLossPercentage;
+      if (percentage === undefined) return "-";
 
-    const percentage = transaction.meta_data.profitLossPercentage;
-    if (percentage === undefined) return "-";
+      const formattedValue = parseFloat(percentage.toString()).toFixed(2);
+      const isPositive = parseFloat(percentage.toString()) >= 0;
 
-    const formattedValue = parseFloat(percentage.toString()).toFixed(2);
-    const isPositive = parseFloat(percentage.toString()) >= 0;
+      return (
+        <span className={isPositive ? "text-green-500" : "text-red-500"}>
+          {isPositive ? "+" : ""}
+          {formattedValue}%
+        </span>
+      );
+    } else {
+      // For open positions, use real-time calculations
+      const realtimePL = plData[transaction.id];
+      if (!realtimePL)
+        return <span className="text-gray-400">Calculating...</span>;
 
-    return (
-      <span className={isPositive ? "text-green-500" : "text-red-500"}>
-        {isPositive ? "+" : ""}
-        {formattedValue}%
-      </span>
-    );
+      return formatPLPercentage(realtimePL.percentage);
+    }
   };
 
   return (
@@ -94,6 +124,20 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
       {!loading && !error && transactions?.length > 0 && (
         <>
+          {!wsConnected && !isClosed && (
+            <div className="bg-yellow-500/20 border border-yellow-500 text-yellow-300 p-2 rounded-md mb-4">
+              <span className="animate-pulse mr-2">⚪</span>
+              Connecting to market data...
+            </div>
+          )}
+
+          {/* {wsConnected && !isClosed && (
+            <div className="bg-green-500/20 border border-green-500 text-green-300 p-2 rounded-md mb-4">
+              <span className="mr-2">🟢</span>
+              Live market data connected - P/L updating in real-time
+            </div>
+          )} */}
+
           <div className="overflow-x-auto">
             <table className="min-w-full bg-gray-800 rounded-lg overflow-hidden">
               <thead className="bg-gray-900">
@@ -121,16 +165,12 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Leverage
                   </th>
-                  {!isClosed && (
-                    <>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        P/L
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        P/L %
-                      </th>
-                    </>
-                  )}
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    P/L
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    P/L %
+                  </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Date
                   </th>
@@ -141,7 +181,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                   <tr
                     key={transaction.id}
                     className="hover:bg-gray-700 relative"
-                    onClick={() => setIsHoveering(transaction.id)}
+                    onClick={() => setIsHovering(transaction.id)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {transaction.id.slice(0, 8)}
@@ -163,7 +203,12 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                     </td>
                     {!isClosed && (
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                        {transaction.meta_data.closedAt || "-"}
+                        {transaction.meta_data.closedAt ||
+                          (!transaction.closed && (
+                            <span className="text-yellow-500 animate-pulse">
+                              Live
+                            </span>
+                          ))}
                       </td>
                     )}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
@@ -174,16 +219,12 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                         ? `1:${transaction.meta_data.leverage}`
                         : "-"}
                     </td>
-                    {!isClosed && (
-                      <>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          {formatProfitLoss(transaction)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          {formatProfitLossPercentage(transaction)}
-                        </td>
-                      </>
-                    )}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {formatProfitLoss(transaction)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {formatProfitLossPercentage(transaction)}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {formatDate(transaction.created_at)}
                     </td>

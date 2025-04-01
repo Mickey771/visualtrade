@@ -192,12 +192,12 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
                 {selectedTransaction?.meta_data.boughtAt}
               </p>
             </div>
-            <div>
+            {/* <div>
               <p className="text-sm text-gray-500">Current Price</p>
               <p className="font-semibold">
                 {currentPrice?.toFixed(5) || "Loading..."}
               </p>
-            </div>
+            </div> */}
             <div>
               <p className="text-sm text-gray-500">Trade Type</p>
               <p
@@ -222,7 +222,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
         </div>
 
         {/* Profit/Loss Display */}
-        {profitLoss && (
+        {/* {profitLoss && (
           <div
             className={`p-4 rounded-lg mb-6 ${
               profitLoss.amount >= 0 ? "bg-green-100" : "bg-red-100"
@@ -253,7 +253,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {errorMessage && (
           <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4">

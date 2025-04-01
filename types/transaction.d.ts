@@ -1,21 +1,40 @@
 // types/transaction.ts
 
+// interface Transaction {
+//   id: string;
+//   type: "BUY" | "SELL";
+//   price: number;
+//   closed?: boolean;
+//   created_at: string;
+//   meta_data: {
+//     pair: string;
+//     leverage?: string;
+//     margin?: string;
+//     quantity?: number;
+//     boughtAt: string;
+//     closedAt?: string;
+//     order_type?: "market" | "limit";
+//     profitLoss?: number;
+//     profitLossPercentage?: number;
+//   };
+// }
+
 interface Transaction {
   id: string;
   type: "BUY" | "SELL";
   price: number;
-  closed?: boolean;
+  closed: boolean;
   created_at: string;
   meta_data: {
     pair: string;
+    boughtAt: string;
+    closedAt?: string;
     leverage?: string;
     margin?: string;
     quantity?: number;
-    boughtAt: string;
-    closedAt?: string;
-    order_type?: "market" | "limit";
     profitLoss?: number;
     profitLossPercentage?: number;
+    order_type?: "market" | "limit";
   };
 }
 
