@@ -6,6 +6,8 @@ import { style } from "./config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/reducers";
 import { setTransactions } from "@/redux/reducers/tradeReducer";
+import { fetchProfileDetails } from "@/redux/reducers/userReducer";
+import { AppDispatch } from "@/redux/store";
 
 const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,11 +19,14 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
     percentage: number;
   } | null>(null);
 
-  const { selectedTransaction, transactions, selectedPairPrice } = useSelector(
-    (store: RootState) => store.trade
-  );
+  const {
+    selectedTransaction,
+    transactions,
+    selectedPairPrice,
+    priceUpdated,
+  } = useSelector((store: RootState) => store.trade);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Calculate profit/loss when selected transaction or current price changes
   useEffect(() => {
@@ -51,7 +56,16 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
   }, [modal.isOpen, selectedTransaction, selectedPairPrice]);
 
   const calculateProfitLoss = () => {
+    console.log("calculating profit loss start");
+    console.log(
+      "selectedTransaction",
+      selectedTransaction,
+      "currentPrice",
+      currentPrice
+    );
+
     if (!selectedTransaction || !currentPrice) return;
+    console.log("calculating profit loss passed return");
 
     // Extract necessary values
     const openPrice = parseFloat(selectedTransaction.meta_data.boughtAt);
@@ -111,6 +125,8 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
       };
 
       // Use the Next.js API route to proxy the request
+      console.log("tradeData", tradeData);
+
       const endpoint = `/api/trade/close`;
 
       const response = await fetch(endpoint, {
@@ -144,6 +160,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
       );
 
       dispatch(setTransactions(newTransactions));
+      dispatch(fetchProfileDetails());
       modal.close();
     } catch (error) {
       // Handle and display errors
@@ -192,12 +209,14 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
                 {selectedTransaction?.meta_data.boughtAt}
               </p>
             </div>
-            {/* <div>
+            <div>
               <p className="text-sm text-gray-500">Current Price</p>
               <p className="font-semibold">
-                {currentPrice?.toFixed(5) || "Loading..."}
+                {!priceUpdated
+                  ? "..."
+                  : currentPrice?.toFixed(5) || "Loading..."}
               </p>
-            </div> */}
+            </div>
             <div>
               <p className="text-sm text-gray-500">Trade Type</p>
               <p
@@ -222,7 +241,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
         </div>
 
         {/* Profit/Loss Display */}
-        {/* {profitLoss && (
+        {profitLoss && (
           <div
             className={`p-4 rounded-lg mb-6 ${
               profitLoss.amount >= 0 ? "bg-green-100" : "bg-red-100"
@@ -253,7 +272,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
               </div>
             </div>
           </div>
-        )} */}
+        )}
 
         {errorMessage && (
           <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
@@ -277,9 +296,9 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
             </span>
           </button>
           <button
-            disabled={isSubmitting}
+            disabled={isSubmitting || !currentPrice || !priceUpdated}
             onClick={submitTrade}
-            className="w-[173px] h-[58px] hover:bg-white hover:text-primaryBlue text-white border border-primaryBlue bg-primaryBlue rounded-[10px]"
+            className="w-[173px] h-[58px] disabled:opacity-30 hover:bg-white hover:text-primaryBlue text-white border border-primaryBlue bg-primaryBlue rounded-[10px]"
           >
             <span className="text-lg font-medium font-['Poppins'] disabled:opacity-50 ">
               {isSubmitting ? "Processing..." : "Close Trade"}

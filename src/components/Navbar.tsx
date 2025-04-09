@@ -1,5 +1,10 @@
 import { RootState } from "@/redux/reducers";
-import { logout, setUser } from "@/redux/reducers/userReducer";
+import {
+  fetchProfileDetails,
+  logout,
+  setUser,
+} from "@/redux/reducers/userReducer";
+import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,35 +21,36 @@ const Navbar = () => {
   const [isDropdown, setIsDropDown] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const { user } = useSelector((store: RootState) => store.user);
+  const { user, loading } = useSelector((store: RootState) => store.user);
 
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const fetchProfileDetails = async () => {
-    const endpoint = `/api/user/profile`;
+  const dispatch = useDispatch<AppDispatch>();
 
-    const response = await fetch(endpoint, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  // const fetchProfileDetails = async () => {
+  //   const endpoint = `/api/user/profile`;
 
-    const data = await response.json();
+  //   const response = await fetch(endpoint, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
 
-    console.log("profile data", data);
+  //   const data = await response.json();
 
-    if (!response.ok) {
-      console.log(response);
-      throw new Error(data.message || `Failed to fetch profile`);
-    }
+  //   console.log("profile data", data);
 
-    dispatch(setUser({ ...user, ...data.data }));
-  };
+  //   if (!response.ok) {
+  //     console.log(response);
+  //     throw new Error(data.message || `Failed to fetch profile`);
+  //   }
+
+  //   dispatch(setUser({ ...user, ...data.data }));
+  // };
 
   useEffect(() => {
-    fetchProfileDetails();
+    dispatch(fetchProfileDetails());
   }, []);
 
   const handleLogout = async () => {
@@ -91,7 +97,7 @@ const Navbar = () => {
                 CREDIT
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.credit}
+                ${loading ? "..." : user.credit}
               </p>
             </div>
             <div>
@@ -99,7 +105,7 @@ const Navbar = () => {
                 EQUITY
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.equity}
+                ${loading ? "..." : user.equity}
               </p>
             </div>
             <div>
@@ -107,7 +113,7 @@ const Navbar = () => {
                 MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.margin}
+                ${loading ? "..." : user.margin}
               </p>
             </div>
             <div>
@@ -115,7 +121,7 @@ const Navbar = () => {
                 FREE MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.free_margin}
+                ${loading ? "..." : user.free_margin}
               </p>
             </div>
             <div>
@@ -123,7 +129,7 @@ const Navbar = () => {
                 OPEN P&L
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.open_p_and_l}
+                ${loading ? "..." : user.open_p_and_l}
               </p>
             </div>
             <div>
@@ -131,7 +137,7 @@ const Navbar = () => {
                 CLOSE P&L
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${user.close_p_and_l}
+                ${loading ? "..." : user.close_p_and_l.toFixed(2)}
               </p>
             </div>
           </div>

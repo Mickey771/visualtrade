@@ -4,6 +4,8 @@ import axios from "axios";
 
 const initialState: InitialState = {
   isAuth: false,
+  loading: false,
+  error: "",
   user: {
     access: "",
     email: "",
@@ -20,22 +22,21 @@ const initialState: InitialState = {
   },
 };
 
-export const refreshToken = createAsyncThunk(
-  "user/refresh",
-  async (refresh, { rejectWithValue }) => {
+export const fetchProfileDetails = createAsyncThunk(
+  "user/fetch-profile",
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/v1/refresh/`,
-        refresh
-      );
-      if (response.status === 201) {
-        return response.data;
+      const response = await axios.get(`/api/user/profile`);
+      console.log("fetch profile result", response);
+
+      if (response.status === 200) {
+        return response.data.data;
       } else {
         throw new Error();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("There was an error: ", error.response?.data?.message);
+        console.log("There was an error: ", error);
         return rejectWithValue(error.response?.data || "Something went wrong");
       } else {
         console.log("There was an unexpected error: ", error);
@@ -72,6 +73,21 @@ const userSlice = createSlice({
         credit: 0.0,
       };
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProfileDetails.pending, (state) => {
+        state.loading = true;
+        // state.error = null;
+      })
+      .addCase(fetchProfileDetails.fulfilled, (state, action) => {
+        state.user = { ...state.user, ...action.payload };
+        state.loading = false;
+      })
+      .addCase(fetchProfileDetails.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
   },
 });
 

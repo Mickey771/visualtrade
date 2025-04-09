@@ -1,5 +1,7 @@
 interface InitialState {
   isAuth: boolean;
+  loading: boolean;
+  error: any;
   user: User;
 }
 

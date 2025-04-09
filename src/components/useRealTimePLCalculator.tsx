@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/reducers";
 import { wsClient } from "@/utils/websocket";
+import {
+  setPriceUpdated,
+  setSelectedPairPrice,
+} from "@/redux/reducers/tradeReducer";
 
 // Type definitions
 
@@ -20,7 +24,12 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
   }>({});
   const [wsConnected, setWsConnected] = useState(false);
 
-  const { selectedFeed } = useSelector((store: RootState) => store.trade);
+  // const { selectedFeed } = useSelector((store: RootState) => store.trade);
+  const { selectedFeed, selectedPair, isLoading } = useSelector(
+    (store: RootState) => store.trade
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Connect to WebSocket for real-time price updates
@@ -88,6 +97,15 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
               lastUpdate: data.data.tick_time,
             },
           }));
+
+          if (data.data.code === selectedPair.split("/").join("")) {
+            const selectedPairBid = data.data?.bids?.[0]?.price || "0";
+            const selectedPairAsk = data.data?.asks?.[0]?.price || "0";
+            const bid = parseFloat(selectedPairBid);
+            const ask = parseFloat(selectedPairAsk);
+            dispatch(setSelectedPairPrice({ bid, ask }));
+            dispatch(setPriceUpdated(true));
+          }
         }
       });
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ClosePositionModal from "../Modals/ClosePositionModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setPriceUpdated,
   setSelectedPair,
   setSelectedTransaction,
 } from "@/redux/reducers/tradeReducer";
@@ -232,20 +233,21 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                     {isHovering === transaction.id &&
                       isClosed &&
                       !transaction.closed && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-[#0000008b] flex justify-end py-1 px-4">
+                        <span className="absolute top-0 left-0 w-full h-full bg-[#0000008b] flex justify-end py-1 px-4">
                           <button
                             onClick={() => {
                               dispatch(setSelectedTransaction(transaction));
                               dispatch(
                                 setSelectedPair(transaction.meta_data.pair)
                               );
+                              dispatch(setPriceUpdated(false));
                               closePositionModal.open();
                             }}
                             className="py-2 px-8 bg-red-400 text-white rounded-[6px]"
                           >
                             Close
                           </button>
-                        </div>
+                        </span>
                       )}
                   </tr>
                 ))}

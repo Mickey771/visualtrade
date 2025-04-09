@@ -4,6 +4,7 @@ interface InitialState {
   selectedFeed: "forex" | "crypto" | "commodity" | "stocks";
   selectedPair: string;
   isLoading: boolean;
+  priceUpdated: boolean;
   selectedPairPrice: {
     bid: number;
     ask: number;
@@ -16,6 +17,7 @@ const initialState: InitialState = {
   selectedFeed: "forex",
   selectedPair: "",
   isLoading: false,
+  priceUpdated: false,
   selectedPairPrice: {
     bid: 0,
     ask: 0,
@@ -46,6 +48,9 @@ const tradeSlice = createSlice({
     setTransactions: (state, action) => {
       state.transactions = action.payload;
     },
+    setPriceUpdated: (state, action) => {
+      state.priceUpdated = action.payload;
+    },
   },
 });
 
@@ -56,5 +61,6 @@ export const {
   setSelectedPairPrice,
   setSelectedTransaction,
   setTransactions,
+  setPriceUpdated,
 } = tradeSlice.actions;
 export default tradeSlice.reducer;
