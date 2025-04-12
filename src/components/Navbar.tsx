@@ -97,7 +97,7 @@ const Navbar = () => {
                 CREDIT
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.credit}
+                ${loading ? "..." : user.credit.toFixed(2)}
               </p>
             </div>
             <div>
@@ -105,7 +105,7 @@ const Navbar = () => {
                 EQUITY
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.equity}
+                ${loading ? "..." : user.equity.toFixed(2)}
               </p>
             </div>
             <div>
@@ -113,7 +113,7 @@ const Navbar = () => {
                 MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.margin}
+                ${loading ? "..." : user.margin.toFixed(2)}
               </p>
             </div>
             <div>
@@ -121,7 +121,7 @@ const Navbar = () => {
                 FREE MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.free_margin}
+                ${loading ? "..." : user.free_margin.toFixed(2)}
               </p>
             </div>
             <div>
@@ -129,7 +129,7 @@ const Navbar = () => {
                 OPEN P&L
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.open_p_and_l}
+                ${loading ? "..." : user.open_p_and_l.toFixed(2)}
               </p>
             </div>
             <div>
