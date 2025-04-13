@@ -45,7 +45,7 @@ const TransactionsPage = () => {
       <div className="max-w-7xl pt-16 lg:pt-8 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-8">
           <Link href={"/trade"}>
-            <button className="md:hidden zr:flex h-fit items-center gap-2 bg-[#18a0fb] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <button className="flex h-fit items-center gap-2 bg-[#18a0fb] text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
               <IoChevronBack />
               Back
             </button>

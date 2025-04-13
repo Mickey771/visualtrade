@@ -87,7 +87,9 @@ const Navbar = () => {
     <nav className="relative bg-primaryBlue text-white">
       <div className=" flex gap-6 py-2">
         <div className="w-[320px] p-4 text-xl md:text-2xl lg:text-3xl border-r-2 border-[#040b11]">
-          <img src="/logo.png" alt="logo" />
+          <Link href={"/trade"}>
+            <img src="/logo.png" alt="logo" />
+          </Link>
         </div>
 
         <div className="absolute md:relative  top-full left-0 flex gap-5 md:gap:10 lg:gap-14 items-center  justify-center md:justify-end lg:justify-center w-full py-3 border-r-2 border-[#040b11]">
