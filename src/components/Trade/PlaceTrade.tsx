@@ -3,7 +3,8 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/reducers";
 import axios from "axios";
-import { setUser } from "@/redux/reducers/userReducer";
+import { fetchProfileDetails, setUser } from "@/redux/reducers/userReducer";
+import { AppDispatch } from "@/redux/store";
 
 const PlaceTrade: React.FC<{
   fetchTransactions: (page: number) => Promise<void>;
@@ -26,16 +27,16 @@ const PlaceTrade: React.FC<{
   const { trade, user } = useSelector((store: RootState) => store);
   const { selectedFeed, selectedPair, isLoading, selectedPairPrice } = trade;
   const {
-    user: { balance, access },
+    user: { balance, access, credit },
   } = user;
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Handle quantity changes with balance validation
   const increaseQuantity = () => {
     let newQuantity;
-    if (quantity >= balance) {
-      newQuantity = balance;
+    if (quantity >= balance + credit) {
+      newQuantity = balance + credit;
     } else {
       newQuantity = quantity + balance / 100;
     }
@@ -53,7 +54,7 @@ const PlaceTrade: React.FC<{
   };
 
   const decreaseQuantity = () => {
-    if (quantity > 5000) {
+    if (quantity > balance / 100) {
       const newQuantity = quantity - balance / 100;
       setQuantity(newQuantity);
       updateMarginFromQuantity(newQuantity);
@@ -136,9 +137,10 @@ const PlaceTrade: React.FC<{
       );
 
       //   update user balance
-      dispatch(
-        setUser({ ...user.user, balance: user.user.balance - quantity })
-      );
+      // dispatch(
+      //   setUser({ ...user.user, balance: user.user.balance - quantity })
+      // );
+      dispatch(fetchProfileDetails());
 
       fetchTransactions(currentPage);
 
