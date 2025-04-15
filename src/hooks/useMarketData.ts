@@ -95,7 +95,7 @@ export function useMarketData() {
         wsClient.disconnect();
       };
     }
-  }, [selectedFeed, selectedPair]);
+  }, [selectedFeed, selectedPair, error]);
 
   return {
     pairs,

@@ -13,7 +13,7 @@ export default function ForexData() {
     dispatch,
   } = useMarketData();
 
-  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+  if (error) return <div className="p-4 text-[#ffffff9e]">Reconnecting...</div>;
   if (isLoading)
     return <div className="p-4 text-gray-600">Loading Forex Data...</div>;
 

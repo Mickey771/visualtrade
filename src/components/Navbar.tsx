@@ -93,7 +93,7 @@ const Navbar = () => {
         </div>
 
         <div className="absolute md:relative  top-full left-0 flex gap-5 md:gap:10 lg:gap-14 items-center  justify-center md:justify-end lg:justify-center w-full py-3 border-r-2 border-[#040b11]">
-          <div className="flex gap-3 sm:gap-5 md:gap:10 lg:gap-10">
+          <div className="flex gap-10 justify-between sm:gap-5 md:gap:10 lg:gap-24">
             <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 CREDIT
@@ -110,22 +110,22 @@ const Navbar = () => {
                 ${loading ? "..." : user.equity.toFixed(2)}
               </p>
             </div>
-            <div>
+            {/* <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${loading ? "..." : user.margin.toFixed(2)}
               </p>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 FREE MARGIN
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${loading ? "..." : user.free_margin.toFixed(2)}
               </p>
-            </div>
+            </div> */}
             <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 OPEN P&L
@@ -175,7 +175,7 @@ const Navbar = () => {
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="  z-[99] text-primaryBlue bg-white hover:bg-primaryBlue hover:text-white border border-white  py-3 px-6 rounded-[6px] disabled:opacity-70"
+              className="  z-[99] text-primaryBlue bg-red-400 hover:bg-primaryBlue hover:text-red-400 border border-red-400  py-3 px-6 rounded-[6px] disabled:opacity-70"
             >
               {isLoggingOut ? "Logging out..." : "Logout"}
             </button>
