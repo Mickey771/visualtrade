@@ -197,9 +197,10 @@ const PlaceTrade: React.FC<{
       <div className="flex flex-col px-5 mt-5">
         <div className="flex justify-between items-center pb-6 border-b border-gray-700">
           <h2 className="text-2xl text-white font-semibold">
-            {selectedFeed !== "commodity"
+            {/* {selectedFeed !== "commodity"
               ? `${selectedPair.slice(0, 3)}/${selectedPair.slice(3)}`
-              : selectedPair}
+              : selectedPair} */}
+            {selectedPair}
           </h2>
           {/* <p className="text-blue-500 text-lg">{selectedFeed}</p> */}
         </div>

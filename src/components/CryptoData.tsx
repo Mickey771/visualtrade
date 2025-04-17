@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { wsClient } from "@/utils/websocket";
+import React, { useEffect, useState } from "react";
 import { useMarketData } from "@/hooks/useMarketData";
-import { setSelectedPair } from "@/redux/reducers/tradeReducer";
+import { setChartSymbol, setSelectedPair } from "@/redux/reducers/tradeReducer";
 
 interface PriceLevel {
   price: string;
@@ -26,11 +25,117 @@ export default function CryptoData() {
     isLoading,
     error,
     dispatch,
+    reconnect,
+    forceUpdate, // Use the forceUpdate counter from the hook
   } = useMarketData();
 
-  if (error) return <div className="p-4 text-[#ffffff9e]">Reconnecting...</div>;
-  if (isLoading)
-    return <div className="p-4 text-[#ffffff9e]">Loading Crypto Data...</div>;
+  // Local state to track connection status for UI purposes
+  const [connectionStatus, setConnectionStatus] = useState("connected");
+
+  // Update local connection status based on hook state
+  useEffect(() => {
+    if (error) {
+      setConnectionStatus("reconnecting");
+    } else if (isLoading) {
+      setConnectionStatus("loading");
+    } else {
+      setConnectionStatus("connected");
+    }
+  }, [error, isLoading, forceUpdate]); // Add forceUpdate to trigger this effect
+
+  // Add global error listener as a backup measure
+  useEffect(() => {
+    const handleReconnected = () => {
+      console.log("CryptoData component handling reconnection event");
+      setConnectionStatus("connected");
+    };
+
+    window.addEventListener("websocket_reconnected", handleReconnected);
+    return () => {
+      window.removeEventListener("websocket_reconnected", handleReconnected);
+    };
+  }, []);
+
+  // Add manual reconnect functionality for backup
+  const handleManualReconnect = () => {
+    console.log("Manual reconnect triggered from CryptoData");
+    reconnect();
+    setConnectionStatus("loading");
+  };
+
+  // Render based on connection status rather than relying directly on hook state
+  if (connectionStatus === "reconnecting") {
+    return (
+      <div className="p-4 text-[#ffffff9e]">
+        <div className="flex items-center">
+          <svg
+            className="animate-spin h-5 w-5 mr-3 text-red-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Reconnecting...
+        </div>
+        <button
+          onClick={handleManualReconnect}
+          className="mt-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition-colors"
+        >
+          Force Reconnect
+        </button>
+      </div>
+    );
+  }
+
+  if (connectionStatus === "loading") {
+    return (
+      <div className="p-4 text-[#ffffff9e]">
+        <div className="flex items-center">
+          <svg
+            className="animate-spin h-5 w-5 mr-3 text-red-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Loading Crypto Data...
+        </div>
+      </div>
+    );
+  }
+
+  // No data yet or no pairs available
+  if (!pairs || pairs.length === 0) {
+    return (
+      <div className="p-4 text-[#ffffff9e]">No crypto pairs available</div>
+    );
+  }
 
   return (
     <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1">
@@ -46,8 +151,11 @@ export default function CryptoData() {
         return (
           <div
             key={pair}
-            onClick={() => dispatch(setSelectedPair(pair.replace("/", "")))}
-            className="border rounded-lg p-4  shadow-sm hover:shadow-md transition-shadow"
+            onClick={() => {
+              dispatch(setSelectedPair(pair.replace("/", "")));
+              dispatch(setChartSymbol(`BINANCE:${pair.replace("/", "")}`));
+            }}
+            className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
           >
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold text-red-500">

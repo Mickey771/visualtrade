@@ -29,19 +29,6 @@ const page = () => {
               <TradingViewChart />
             </div>
           </div>
-          {/* <div className="w-full px-6">
-            <TransactionsTable
-              loading={loading}
-              error={error}
-              transactions={transactions}
-              formatDate={formatDate}
-              handlePageChange={handlePageChange}
-              currentPage={currentPage}
-              hasNextPage={hasNextPage}
-              formatPair={formatPair}
-              isClosed={true}
-            />
-          </div> */}
         </div>
         <PlaceTrade
           fetchTransactions={fetchTransactions}

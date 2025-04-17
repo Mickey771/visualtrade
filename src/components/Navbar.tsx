@@ -93,7 +93,7 @@ const Navbar = () => {
         </div>
 
         <div className="absolute md:relative  top-full left-0 flex gap-5 md:gap:10 lg:gap-14 items-center  justify-center md:justify-end lg:justify-center w-full py-3 border-r-2 border-[#040b11]">
-          <div className="flex gap-10 justify-between sm:gap-5 md:gap:10 lg:gap-24">
+          <div className="w-full  flex gap-10 justify-center lg:justify-start sm:gap-5 md:gap:10 lg:gap-24">
             <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 CREDIT
@@ -126,14 +126,14 @@ const Navbar = () => {
                 ${loading ? "..." : user.free_margin.toFixed(2)}
               </p>
             </div> */}
-            <div>
+            {/* <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 OPEN P&L
               </p>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 ${loading ? "..." : user.open_p_and_l.toFixed(2)}
               </p>
-            </div>
+            </div> */}
             <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 CLOSE P&L
