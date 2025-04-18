@@ -1,3 +1,4 @@
+import { useDisclosure } from "@/hooks/useDisclosure";
 import { RootState } from "@/redux/reducers";
 import {
   fetchProfileDetails,
@@ -15,6 +16,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoExpandOutline, IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import DepositModal from "./Modals/DepositModal";
 
 const Navbar = () => {
   const [isLogout, setIsLogout] = useState(false);
@@ -25,29 +27,9 @@ const Navbar = () => {
 
   const router = useRouter();
 
+  const depositModal = useDisclosure();
+
   const dispatch = useDispatch<AppDispatch>();
-
-  // const fetchProfileDetails = async () => {
-  //   const endpoint = `/api/user/profile`;
-
-  //   const response = await fetch(endpoint, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-
-  //   const data = await response.json();
-
-  //   console.log("profile data", data);
-
-  //   if (!response.ok) {
-  //     console.log(response);
-  //     throw new Error(data.message || `Failed to fetch profile`);
-  //   }
-
-  //   dispatch(setUser({ ...user, ...data.data }));
-  // };
 
   useEffect(() => {
     dispatch(fetchProfileDetails());
@@ -110,30 +92,6 @@ const Navbar = () => {
                 ${loading ? "..." : user.equity.toFixed(2)}
               </p>
             </div>
-            {/* <div>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                MARGIN
-              </p>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.margin.toFixed(2)}
-              </p>
-            </div> */}
-            {/* <div>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                FREE MARGIN
-              </p>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.free_margin.toFixed(2)}
-              </p>
-            </div> */}
-            {/* <div>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                OPEN P&L
-              </p>
-              <p className="text-xs sm:text-sm md:text-base lg:text-base">
-                ${loading ? "..." : user.open_p_and_l.toFixed(2)}
-              </p>
-            </div> */}
             <div>
               <p className="text-xs sm:text-sm md:text-base lg:text-base">
                 CLOSE P&L
@@ -156,7 +114,10 @@ const Navbar = () => {
             </p>
           </div>
 
-          <button className="bg-[#18a0fb] text-sm md:text-base px-4 md:px-8 py-1 rounded-lg h-fit">
+          <button
+            onClick={depositModal.open}
+            className="bg-[#18a0fb] text-sm md:text-base px-4 md:px-8 py-1 rounded-lg h-fit"
+          >
             DEPOSIT
           </button>
         </div>
@@ -185,34 +146,10 @@ const Navbar = () => {
               <BsThreeDotsVertical />
             </span>
           </button>
-          {/* <span>
-            <MdOutlinePersonOutline size={30} />
-          </span>
-          <span>
-            <IoMdNotificationsOutline size={30} />
-          </span>
-          <span>
-            <IoSettingsOutline size={30} />
-          </span>
-          <span>
-            <IoExpandOutline size={30} />
-          </span>
-          <div className="relative">
-            <span onClick={() => setIsLogout((prev) => !prev)}>
-              <BsThreeDotsVertical size={30} />
-            </span>
-            {isLogout && (
-              <button
-                onClick={handleLogout}
-                disabled={isLoggingOut}
-                className="absolute top-[120%] right-0 z-[99] text-primaryBlue bg-white py-3 px-6 rounded-[6px] disabled:opacity-70"
-              >
-                {isLoggingOut ? "Logging out..." : "Logout"}
-              </button>
-            )}
-          </div> */}
         </div>
       </div>
+
+      <DepositModal modal={depositModal} />
     </nav>
   );
 };
