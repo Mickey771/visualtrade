@@ -248,7 +248,7 @@ const PlaceTrade: React.FC<{
               value={quantity.toFixed(2)}
               onChange={(e) => {
                 if (parseInt(e.target.value) > balance) {
-                  setQuantity(balance);
+                  setQuantity(balance + credit);
                   return;
                 }
                 setQuantity(parseInt(e.target.value));

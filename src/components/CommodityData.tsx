@@ -52,13 +52,13 @@ export default function CommoditiesData() {
     SILVER: "TVC:SILVER",
     Zinc: "PEPPERSTONE:ZINC",
     COPPER: "CAPITALCOM:COPPER",
-    Palladium: "Palladium",
-    Platinum: "Platinum",
-    Nickel: "Nickel",
-    Lead: "Lead",
-    NGAS: "Natural Gas",
-    USOIL: "US Crude Oil",
-    UKOIL: "UK Crude Oil",
+    Palladium: "TVC:PALLADIUM",
+    Platinum: "CAPITALCOM:PLATINUM",
+    Nickel: "CAPITALCOM:NICKEL",
+    Lead: "CAPITALCOM:LEAD",
+    NGAS: "CAPITALCOM:NATURALGAS",
+    USOIL: "TVC:USOIL",
+    UKOIL: "TVC:UKOIL",
   };
 
   // Update local connection status based on hook state
@@ -179,7 +179,7 @@ export default function CommoditiesData() {
             key={code}
             onClick={() => {
               dispatch(setSelectedPair(code));
-              dispatch(setChartSymbol(`CAPITALCOM:${code}`));
+              dispatch(setChartSymbol(`${chartNames[code]}`));
             }}
             className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
           >

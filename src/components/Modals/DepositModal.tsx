@@ -37,6 +37,7 @@ const DepositModal: React.FC<ModalProps> = ({ modal }) => {
   const [error, setError] = useState<string>("");
   const [refreshCountdown, setRefreshCountdown] = useState<number>(20);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isNetworkDropdown, setIsNetworkDropdown] = useState<boolean>(false);
 
   // Fetch crypto prices with automatic refresh
   useEffect(() => {
@@ -197,8 +198,12 @@ const DepositModal: React.FC<ModalProps> = ({ modal }) => {
   };
 
   // Handle network change
-  const handleNetworkChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedNetwork(e.target.value);
+  //   const handleNetworkChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //     setSelectedNetwork(e.target.value);
+  //   };
+  const handleNetworkChange = (value: string) => {
+    setSelectedNetwork(value);
+    setIsNetworkDropdown(false);
   };
 
   // Handle form submission
@@ -371,16 +376,35 @@ const DepositModal: React.FC<ModalProps> = ({ modal }) => {
                         placeholder="Calculated amount"
                         step="any"
                       />
-                      <div className="w-24 py-4 px-4 bg-blue-800 text-white flex items-center">
-                        <select
-                          className="w-full bg-transparent outline-none"
-                          value={selectedNetwork}
-                          onChange={handleNetworkChange}
+                      <div className="relative w-24  bg-blue-800 text-white flex items-center cursor-pointer">
+                        <span
+                          className="inline-flex w-full py-4 px-4"
+                          onClick={() => setIsNetworkDropdown((prev) => !prev)}
                         >
-                          <option value="BTC">BTC</option>
-                          <option value="ETH">ETH</option>
-                          <option value="USDT">USDT</option>
-                        </select>
+                          {selectedNetwork}
+                        </span>
+                        {isNetworkDropdown && (
+                          <div className="absolute w-full  top-full left-0 flex flex-col gap-1 bg-white text-primaryBlue">
+                            <span
+                              onClick={() => handleNetworkChange("BTC")}
+                              className="hover:bg-primaryBlue hover:text-white cursor-pointer px-3 py-2"
+                            >
+                              BTC
+                            </span>
+                            <span
+                              onClick={() => handleNetworkChange("ETH")}
+                              className="hover:bg-primaryBlue hover:text-white cursor-pointer px-3 py-2"
+                            >
+                              ETH
+                            </span>
+                            <span
+                              onClick={() => handleNetworkChange("USDT")}
+                              className="hover:bg-primaryBlue hover:text-white cursor-pointer px-3 py-2"
+                            >
+                              USDT
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <span

@@ -155,16 +155,18 @@ const RegisterDetails: React.FC = () => {
 
       <div className="p-10 bg-[hsl(222,65%,8%)] w-full">
         <div className="flex justify-between w-full">
-          <div className="w-full h-fit max-w-[200px]">
-            <Image
-              src={"/logo.png"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "100%" }}
-              alt="register"
-            />
-          </div>
+          <Link href={"/"}>
+            <div className="w-full h-fit max-w-[200px]">
+              <Image
+                src={"/logo.png"}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "100%" }}
+                alt="register"
+              />
+            </div>
+          </Link>
           <div className="h-fit flex gap-5 items-center">
             <p className="text-white">Already have an account?</p>
             <Link href={"/login"}>
