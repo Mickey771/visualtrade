@@ -47,7 +47,7 @@ export const marketOptions: MarketOptions = {
       "AVAX/USDT",
       "DOT/USDT",
       "LINK/USDT",
-      "MATIC/USDT",
+      "MEME/USDT",
       "SHIB/USDT",
       "LTC/USDT",
       "UNI/USDT",
