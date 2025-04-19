@@ -43,6 +43,9 @@ const DepositModal: React.FC<ModalProps> = ({ modal }) => {
     let intervalId: NodeJS.Timeout;
 
     if (modal.isOpen) {
+      setShowPaymentDetails(false);
+      setIsSubmitted(false);
+
       // Initial fetch
       fetchCryptoPrices();
 

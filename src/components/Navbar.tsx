@@ -1,10 +1,6 @@
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { RootState } from "@/redux/reducers";
-import {
-  fetchProfileDetails,
-  logout,
-  setUser,
-} from "@/redux/reducers/userReducer";
+import { fetchProfileDetails, logout } from "@/redux/reducers/userReducer";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,11 +8,9 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaWallet } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { IoExpandOutline, IoSettingsOutline } from "react-icons/io5";
-import { MdOutlinePersonOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import DepositModal from "./Modals/DepositModal";
+import WithdrawalModal from "./Modals/WithdrawalModal";
 
 const Navbar = () => {
   const [isLogout, setIsLogout] = useState(false);
@@ -28,6 +22,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const depositModal = useDisclosure();
+  const withdrawModal = useDisclosure();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -102,13 +97,15 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-3 items-center pr-6 lg:pr-0">
-          <span className="text-[20px] md:text-[25px] lg:text-[30px]">
+        <div className="flex gap-2 md:gap-3 items-center pr-0 lg:pr-0">
+          <span className="zr:hidden md:flex text-[20px] md:text-[25px] lg:text-[30px]">
             <FaWallet />
           </span>
           <div className="">
-            <p className="text-sm md:text-base lg:text-base">BALANCE</p>
-            <p className="text-sm md:text-base lg:text-base">
+            <p className="text-xs mb:text-sm md:text-base lg:text-base">
+              BALANCE
+            </p>
+            <p className="text-xs mb:text-sm md:text-base lg:text-base">
               {" "}
               ${user.balance.toFixed(2)}
             </p>
@@ -116,9 +113,15 @@ const Navbar = () => {
 
           <button
             onClick={depositModal.open}
-            className="bg-[#18a0fb] text-sm md:text-base px-4 md:px-8 py-1 rounded-lg h-fit"
+            className="bg-[#18a0fb] text-[10px] mb:text-sm md:text-base px-4 md:px-8 py-1 rounded-lg h-fit"
           >
             DEPOSIT
+          </button>
+          <button
+            onClick={withdrawModal.open}
+            className="bg-green-600 text-white text-[10px] mb:text-sm md:text-base px-4 md:px-8 py-1 rounded-lg h-fit"
+          >
+            WITHDRAW
           </button>
         </div>
 
@@ -150,6 +153,7 @@ const Navbar = () => {
       </div>
 
       <DepositModal modal={depositModal} />
+      <WithdrawalModal modal={withdrawModal} />
     </nav>
   );
 };
