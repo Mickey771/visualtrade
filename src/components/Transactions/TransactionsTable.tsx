@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import ClosePositionModal from "../Modals/ClosePositionModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setIsCalculate,
   setPriceUpdated,
   setSelectedPair,
+  setSelectedPairPrice,
   setSelectedTransaction,
 } from "@/redux/reducers/tradeReducer";
 import { RootState } from "@/redux/reducers";
@@ -81,9 +83,17 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     // Only set setPriceUpdated(false) if this transaction doesn't have stored P/L data
     // (i.e., if it's being updated in real-time)
     if (!hasNonZeroProfitLossData(transaction)) {
-      console.log("is dispatching");
-
       dispatch(setPriceUpdated(false));
+      dispatch(setIsCalculate(true));
+    } else {
+      dispatch(setPriceUpdated(true));
+      dispatch(
+        setSelectedPairPrice({
+          bid: transaction.meta_data.profitLoss,
+          ask: transaction.meta_data.profitLoss,
+        })
+      );
+      dispatch(setIsCalculate(false));
     }
 
     closePositionModal.open();
@@ -299,7 +309,9 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
         </>
       )}
 
-      <ClosePositionModal modal={closePositionModal} />
+      {closePositionModal.isOpen && (
+        <ClosePositionModal modal={closePositionModal} />
+      )}
     </>
   );
 };

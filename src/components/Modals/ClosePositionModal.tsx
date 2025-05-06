@@ -24,6 +24,7 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
     transactions,
     selectedPairPrice,
     priceUpdated,
+    isCalculate,
   } = useSelector((store: RootState) => store.trade);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -57,12 +58,12 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
 
   const calculateProfitLoss = () => {
     // console.log("calculating profit loss start");
-    // console.log(
-    //   "selectedTransaction",
-    //   selectedTransaction,
-    //   "currentPrice",
-    //   currentPrice
-    // );
+    console.log(
+      "selectedTransaction",
+      selectedTransaction,
+      "currentPrice",
+      currentPrice
+    );
 
     if (!selectedTransaction || !currentPrice) return;
     console.log("calculating profit loss passed return");
@@ -98,10 +99,17 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
     // Calculate percentage gain/loss relative to margin
     const pnlPercentage = (pnlAmount / margin) * 100;
 
-    setProfitLoss({
-      amount: pnlAmount,
-      percentage: pnlPercentage,
-    });
+    if (isCalculate) {
+      setProfitLoss({
+        amount: pnlAmount,
+        percentage: pnlPercentage,
+      });
+    } else {
+      setProfitLoss({
+        amount: selectedPairPrice.bid,
+        percentage: (selectedPairPrice.bid / margin) * 100,
+      });
+    }
   };
 
   const submitTrade = async () => {

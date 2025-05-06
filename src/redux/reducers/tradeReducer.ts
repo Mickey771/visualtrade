@@ -12,6 +12,7 @@ interface InitialState {
   selectedTransaction: Transaction | null;
   transactions: Transaction[];
   chartSymbol: string;
+  isCalculate: boolean;
 }
 
 const initialState: InitialState = {
@@ -26,6 +27,7 @@ const initialState: InitialState = {
   selectedTransaction: null,
   transactions: [],
   chartSymbol: "FX:EURUSD",
+  isCalculate: false,
 };
 
 const tradeSlice = createSlice({
@@ -56,6 +58,9 @@ const tradeSlice = createSlice({
     setChartSymbol: (state, action) => {
       state.chartSymbol = action.payload;
     },
+    setIsCalculate: (state, action) => {
+      state.isCalculate = action.payload;
+    },
   },
 });
 
@@ -68,5 +73,6 @@ export const {
   setTransactions,
   setPriceUpdated,
   setChartSymbol,
+  setIsCalculate,
 } = tradeSlice.actions;
 export default tradeSlice.reducer;
