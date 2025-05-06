@@ -73,6 +73,22 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     return transactions.filter((transaction) => !transaction.closed);
   }, [transactions]);
 
+  // Helper function to handle the close button click
+  const handleCloseButtonClick = (transaction: Transaction) => {
+    dispatch(setSelectedTransaction(transaction));
+    dispatch(setSelectedPair(transaction.meta_data.pair));
+
+    // Only set setPriceUpdated(false) if this transaction doesn't have stored P/L data
+    // (i.e., if it's being updated in real-time)
+    if (!hasNonZeroProfitLossData(transaction)) {
+      console.log("is dispatching");
+
+      dispatch(setPriceUpdated(false));
+    }
+
+    closePositionModal.open();
+  };
+
   // Helper function to format profit/loss with color
   const formatProfitLoss = (transaction: Transaction) => {
     if (transaction.closed || hasNonZeroProfitLossData(transaction)) {
@@ -250,14 +266,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
                       !transaction.closed && (
                         <span className="absolute top-0 left-0 w-full h-full bg-[#0000008b] flex justify-end py-1 px-4">
                           <button
-                            onClick={() => {
-                              dispatch(setSelectedTransaction(transaction));
-                              dispatch(
-                                setSelectedPair(transaction.meta_data.pair)
-                              );
-                              dispatch(setPriceUpdated(false));
-                              closePositionModal.open();
-                            }}
+                            onClick={() => handleCloseButtonClick(transaction)}
                             className="py-2 px-8 bg-red-400 text-white rounded-[6px]"
                           >
                             Close
