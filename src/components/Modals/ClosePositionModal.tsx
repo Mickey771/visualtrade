@@ -56,13 +56,13 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
   }, [modal.isOpen, selectedTransaction, selectedPairPrice]);
 
   const calculateProfitLoss = () => {
-    console.log("calculating profit loss start");
-    console.log(
-      "selectedTransaction",
-      selectedTransaction,
-      "currentPrice",
-      currentPrice
-    );
+    // console.log("calculating profit loss start");
+    // console.log(
+    //   "selectedTransaction",
+    //   selectedTransaction,
+    //   "currentPrice",
+    //   currentPrice
+    // );
 
     if (!selectedTransaction || !currentPrice) return;
     console.log("calculating profit loss passed return");

@@ -108,6 +108,8 @@ const PlaceTrade: React.FC<{
           margin: margin,
           order_type: activeTab === "open" ? "market" : "limit",
           boughtAt: price.toString(),
+          profitLoss: 0,
+          profitLossPercentage: 0,
         },
         price: quantity,
       };

@@ -51,10 +51,32 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     }
   }, [transactions, isClosed]);
 
+  // Helper function to check if a transaction has profit/loss data
+  const hasNonZeroProfitLossData = (transaction: Transaction) => {
+    if (transaction.closed) return true; // Closed transactions always use stored values
+
+    // Check if transaction has non-zero profit/loss values in the data
+    const hasProfitLossData =
+      transaction.meta_data.profitLoss !== undefined &&
+      transaction.meta_data.profitLoss !== 0;
+
+    const hasProfitLossPercentageData =
+      transaction.meta_data.profitLossPercentage !== undefined &&
+      transaction.meta_data.profitLossPercentage !== 0;
+
+    // If either profit/loss value exists and is non-zero, it has data
+    return hasProfitLossData || hasProfitLossPercentageData;
+  };
+
+  // Add a computed value for open trades
+  const openTrades = React.useMemo(() => {
+    return transactions.filter((transaction) => !transaction.closed);
+  }, [transactions]);
+
   // Helper function to format profit/loss with color
   const formatProfitLoss = (transaction: Transaction) => {
-    if (transaction.closed) {
-      // For closed positions, use stored profit/loss
+    if (transaction.closed || hasNonZeroProfitLossData(transaction)) {
+      // For closed positions or positions with stored profit/loss, use stored values
       const profitLoss = transaction.meta_data.profitLoss;
       if (profitLoss === undefined) return "-";
 
@@ -68,7 +90,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
         </span>
       );
     } else {
-      // For open positions, use real-time calculations
+      // For positions without stored values, use real-time calculations
       const realtimePL = plData[transaction.id];
       if (!realtimePL)
         return <span className="text-gray-400">Calculating...</span>;
@@ -79,8 +101,8 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
   // Helper function to format profit/loss percentage
   const formatProfitLossPercentage = (transaction: Transaction) => {
-    if (transaction.closed) {
-      // For closed positions, use stored percentage
+    if (transaction.closed || hasNonZeroProfitLossData(transaction)) {
+      // For closed positions or positions with stored percentage, use stored values
       const percentage = transaction.meta_data.profitLossPercentage;
       if (percentage === undefined) return "-";
 
@@ -94,7 +116,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
         </span>
       );
     } else {
-      // For open positions, use real-time calculations
+      // For positions without stored values, use real-time calculations
       const realtimePL = plData[transaction.id];
       if (!realtimePL)
         return <span className="text-gray-400">Calculating...</span>;
@@ -125,19 +147,12 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
       {!loading && !error && transactions?.length > 0 && (
         <>
-          {!wsConnected && !isClosed && (
+          {!wsConnected && !isClosed && openTrades && openTrades.length > 0 && (
             <div className="bg-yellow-500/20 border border-yellow-500 text-yellow-300 p-2 rounded-md mb-4">
               <span className="animate-pulse mr-2">⚪</span>
               Connecting to market data...
             </div>
           )}
-
-          {/* {wsConnected && !isClosed && (
-            <div className="bg-green-500/20 border border-green-500 text-green-300 p-2 rounded-md mb-4">
-              <span className="mr-2">🟢</span>
-              Live market data connected - P/L updating in real-time
-            </div>
-          )} */}
 
           <div className="overflow-x-auto">
             <table className="min-w-full bg-gray-800 rounded-lg overflow-hidden">

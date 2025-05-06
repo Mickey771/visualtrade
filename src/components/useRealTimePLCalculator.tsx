@@ -8,7 +8,6 @@ import {
 } from "@/redux/reducers/tradeReducer";
 
 // Type definitions
-
 interface PriceData {
   [pair: string]: {
     bid: number;
@@ -24,14 +23,41 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
   }>({});
   const [wsConnected, setWsConnected] = useState(false);
 
-  // const { selectedFeed } = useSelector((store: RootState) => store.trade);
   const { selectedFeed, selectedPair, isLoading } = useSelector(
     (store: RootState) => store.trade
   );
 
   const dispatch = useDispatch();
 
+  // Helper function to check if a transaction has profit/loss data
+  const hasNonZeroProfitLossData = (transaction: Transaction) => {
+    if (transaction.closed) return true; // Closed transactions always use stored values
+
+    // Check if transaction has non-zero profit/loss values in the data
+    const hasProfitLossData =
+      transaction.meta_data.profitLoss !== undefined &&
+      transaction.meta_data.profitLoss !== 0;
+
+    const hasProfitLossPercentageData =
+      transaction.meta_data.profitLossPercentage !== undefined &&
+      transaction.meta_data.profitLossPercentage !== 0;
+
+    // If either profit/loss value exists and is non-zero, it has data
+    return hasProfitLossData || hasProfitLossPercentageData;
+  };
+
   useEffect(() => {
+    // Only set up WebSocket if there are transactions that need real-time updates
+    const openTransactionsNeedingUpdates = transactions.filter(
+      (t) => !t.closed && !hasNonZeroProfitLossData(t)
+    );
+
+    if (openTransactionsNeedingUpdates.length === 0) {
+      // No transactions need real-time updates, so set wsConnected to true to hide the connecting message
+      setWsConnected(true);
+      return; // No need to connect if there are no transactions needing updates
+    }
+
     // Connect to WebSocket for real-time price updates
     const wsUrl = `wss://quote.tradeswitcher.com/quote-b-ws-api?token=${process.env.NEXT_PUBLIC_ALL_TICK_API_KEY}`;
 
@@ -53,15 +79,17 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
       ws.addEventListener("open", () => {
         setWsConnected(true);
 
-        // Subscribe to all pairs from active transactions
-        const tradingPairs = transactions
-          .filter((t) => !t.closed)
-          .map((t) => {
-            // Format pairs according to feed type (crypto has '/' in pair name)
-            return selectedFeed === "crypto"
-              ? t.meta_data.pair.replace("/", "")
-              : t.meta_data.pair;
-          });
+        // Subscribe to all pairs from open transactions that don't have stored P/L data
+        const openTransactions = transactions.filter(
+          (t) => !t.closed && !hasNonZeroProfitLossData(t)
+        );
+
+        const tradingPairs = openTransactions.map((t) => {
+          // Format pairs according to feed type (crypto has '/' in pair name)
+          return selectedFeed === "crypto"
+            ? t.meta_data.pair.replace("/", "")
+            : t.meta_data.pair;
+        });
 
         // Remove duplicates
         const uniquePairs = [...new Set(tradingPairs)];
@@ -116,7 +144,7 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
     }
   }, [transactions, selectedFeed]);
 
-  // Calculate P/L for all open positions whenever price data updates
+  // Calculate P/L for all truly live positions whenever price data updates
   useEffect(() => {
     if (Object.keys(priceData).length > 0) {
       const newPLData: {
@@ -124,7 +152,8 @@ export const useRealTimePLCalculator = (transactions: Transaction[]) => {
       } = {};
 
       transactions.forEach((transaction) => {
-        if (!transaction.closed) {
+        // Calculate for all open transactions
+        if (!transaction.closed && !hasNonZeroProfitLossData(transaction)) {
           const pairCode =
             selectedFeed === "crypto"
               ? transaction.meta_data.pair.replace("/", "")

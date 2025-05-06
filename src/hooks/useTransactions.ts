@@ -1,8 +1,7 @@
-// hooks/useTransactions.ts
 import { RootState } from "@/redux/reducers";
 import { setTransactions } from "@/redux/reducers/tradeReducer";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const useTransactions = () => {
@@ -10,13 +9,15 @@ export const useTransactions = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const refreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { transactions } = useSelector((store: RootState) => store.trade);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const fetchTransactions = async (page: number) => {
+  // Initial fetch - shows loading spinner
+  const initialFetchTransactions = async (page: number) => {
     setLoading(true);
     setError(null);
 
@@ -54,8 +55,88 @@ export const useTransactions = () => {
     }
   };
 
+  // Refresh fetch - does not show loading spinner and preserves real-time values
+  const refreshTransactions = async (page: number) => {
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/transactions?page=${page}`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Authentication error, redirect to login (silent)
+          router.push("/login");
+          return;
+        }
+        // Only log error, don't display to user during refresh
+        console.error(`Failed to refresh transactions: ${response.statusText}`);
+        return;
+      }
+
+      const data: TransactionsResponse = await response.json();
+
+      if (data.status === "success") {
+        // Get current transactions from store
+        const currentTransactions = transactions;
+
+        // Process new transactions to preserve real-time P/L values
+        const updatedTransactions = data.data.map((newTransaction) => {
+          // Find matching transaction in current state
+          const existingTransaction = currentTransactions.find(
+            (t) => t.id === newTransaction.id
+          );
+
+          // Only update if existing transaction doesn't exist
+          // OR if the transaction now has a non-zero profitLoss value when it didn't before
+          if (!existingTransaction) {
+            return newTransaction;
+          }
+
+          // Check if transaction status changed from no P/L to having P/L
+          const hadProfitLoss =
+            existingTransaction.meta_data.profitLoss !== undefined &&
+            existingTransaction.meta_data.profitLoss !== 0;
+
+          const nowHasProfitLoss =
+            newTransaction.meta_data.profitLoss !== undefined &&
+            newTransaction.meta_data.profitLoss !== 0;
+
+          // If status changed or transaction is closed, use the new data
+          if ((!hadProfitLoss && nowHasProfitLoss) || newTransaction.closed) {
+            return newTransaction;
+          }
+
+          // Otherwise preserve the existing transaction data
+          return existingTransaction;
+        });
+
+        dispatch(setTransactions(updatedTransactions));
+        setHasNextPage(data.has_next);
+      }
+    } catch (err) {
+      console.error("Silent transaction refresh error:", err);
+      // Don't update error state during silent refresh
+    }
+  };
+
+  // Set up initial fetch and auto-refresh
   useEffect(() => {
-    fetchTransactions(currentPage);
+    // Initial fetch
+    initialFetchTransactions(currentPage);
+
+    // Set up auto-refresh every 10 seconds
+    refreshIntervalRef.current = setInterval(() => {
+      refreshTransactions(currentPage);
+    }, 10000);
+
+    // Clean up interval on unmount
+    return () => {
+      if (refreshIntervalRef.current) {
+        clearInterval(refreshIntervalRef.current);
+      }
+    };
   }, [currentPage]);
 
   const handlePageChange = (newPage: number) => {
@@ -140,6 +221,6 @@ export const useTransactions = () => {
     handlePageChange,
     hasNextPage,
     currentPage,
-    fetchTransactions,
+    fetchTransactions: initialFetchTransactions, // Use the initial fetch for manual refreshes
   };
 };
