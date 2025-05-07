@@ -191,7 +191,7 @@ export default function CryptoData() {
                 </div>
               </div>
             ) : (
-              <div className="text-gray-400 text-sm">No data available</div>
+              <div className="text-gray-400 text-sm">Loading...</div>
             )}
           </div>
         );

@@ -112,8 +112,8 @@ export default function MarketsData() {
 
     // Indices
     NAS100: "PEPPERSTONE:NAS100",
-    FRA40: "FX:FRA40",
-    GER30: "FX:GER30",
+    FRA40: "FOREXCOM:FRA40",
+    GER30: "CFI:GER30",
     US500: "CAPITALCOM:US500",
     US30: "BLACKBULL:US30",
     UK100: "CAPITALCOM:UK100",
@@ -539,7 +539,7 @@ export default function MarketsData() {
                 )}
               </div>
             ) : (
-              <div className="text-gray-400 text-sm">No data available</div>
+              <div className="text-gray-400 text-sm">Loading...</div>
             )}
           </div>
         );

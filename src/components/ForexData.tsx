@@ -17,6 +17,40 @@ export default function ForexData() {
     forceUpdate, // Use the forceUpdate counter from the hook
   } = useMarketData();
 
+  const chartNames: { [key: string]: string } = {
+    // Major pairs
+    EURUSD: "FX:EURUSD",
+    USDJPY: "FX:USDJPY",
+    GBPUSD: "FX:GBPUSD",
+    USDCHF: "FX:USDCHF",
+    USDCAD: "FX:USDCAD",
+    AUDUSD: "FX:AUDUSD",
+    NZDUSD: "FX:NZDUSD",
+    EURGBP: "FX:EURGBP",
+
+    // Exotic pairs
+    USDHKD: "FX:USDHKD",
+    USDSGD: "CAPITALCOM:USDSGD",
+    USDTHB: "OANDA:USDTHB",
+    USDCNH: "FX:USDCNH",
+
+    // Minor pairs
+    EURAUD: "FX:EURAUD",
+    EURCAD: "FX:EURCAD",
+    EURNZD: "FX:EURNZD",
+    EURCHF: "FX:EURCHF",
+    GBPJPY: "FX:GBPJPY",
+    GBPCAD: "FX:GBPCAD",
+    GBPAUD: "FX:GBPAUD",
+    AUDCAD: "FX:AUDCAD",
+    AUDJPY: "FX:AUDJPY",
+    AUDNZD: "FX:AUDNZD",
+    CADJPY: "FX:CADJPY",
+    NZDJPY: "FX:NZDJPY",
+    CHFJPY: "FX:CHFJPY",
+    GBPNZD: "FX:GBPNZD",
+  };
+
   // Local state to track connection status for UI purposes
   const [connectionStatus, setConnectionStatus] = useState("connected");
 
@@ -140,7 +174,7 @@ export default function ForexData() {
             key={pair}
             onClick={() => {
               dispatch(setSelectedPair(pair));
-              dispatch(setChartSymbol(`FX:${pair}`));
+              dispatch(setChartSymbol(chartNames[pair]));
             }}
             className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
           >
@@ -177,7 +211,7 @@ export default function ForexData() {
                 </div>
               </div>
             ) : (
-              <div className="text-gray-400 text-sm">No data available</div>
+              <div className="text-gray-400 text-sm">Loading...</div>
             )}
           </div>
         );
