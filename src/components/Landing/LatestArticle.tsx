@@ -7,17 +7,18 @@ const articles = [
     text:
       "In an increasingly interconnected world, globalization has transformed the landscape of commodity trading, reshaping markets, su...",
   },
+
   {
     image: "future",
-    heading: "The Future of Commodity Trading",
+    heading: "The Future of Cryptocurrency Trading",
     text:
-      "In an era of rapid technological advancement and global interconnectedness, the future of commodity trading holds both promise a...",
+      "With the world becoming more interconnected and technology advancing at a rapid pace, the future of cryptocurrency trading is filled with opportunities to...",
   },
   {
     image: "promoting",
-    heading: "Promoting Sustainability in Commodity Markets",
+    heading: "Fostering Long-Term Investment",
     text:
-      "In an era where environmental and social responsibility are paramount, promoting sustainability in commodity markets has become...",
+      "in Foreign Exchange Markets Promoting sustainability in the Forex markets has evolved into a top priority in this age of social and environmental responsibility as...",
   },
 ];
 

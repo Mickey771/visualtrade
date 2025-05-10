@@ -4,33 +4,36 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 const faqs = [
   {
     question: "What can be traded?",
-    answer:
-      "Agricultural products, energy resources, precious metals, base metals, and soft.",
+    answer: "Stocks, commodities, precious metalss, cryptocurrency, and FX",
   },
   {
-    question: "What is a trade?",
+    question: "How fast is the withdrawal process?",
     answer:
-      "A digital marketplace where traders buy and sell like agricultural products, energy resources, and precious metals.",
-  },
-  {
-    question: "What are the benefits?",
-    answer:
-      "Accessibility, liquidity, diverse options, and advanced trading tools.",
-  },
-  {
-    question: "Is it regulated?",
-    answer:
-      "Yes, reputable platforms are typically regulated to ensure transparency and security for traders.",
+      "Withdrawal is usually instant, although it can take 1-3 working days.",
   },
   {
     question: "Can I trade with leverage?",
     answer:
-      "Some platforms offer leverage, but it amplifies both profits and losses and should be used cautiously.",
+      "Yes, you can trade with leverage of 1:200, which can be increased to 1:2000 depending on your trading status.",
+  },
+  {
+    question: "I am a newbie with no trading experience",
+    answer:
+      "Most of our users are beginner traders; thus, we assign an account manager to guide and assist you in generating money trading.",
+  },
+  {
+    question: "Is the company regulated?",
+    answer:
+      "We operate under the oversight of the Australian Securites & Investments Commission.",
+    linkText:
+      "Please click here to view our license on the official government website",
+    link:
+      "https://connectonline.asic.gov.au/RegistrySearch/faces/landing/panelSearch.jspx?searchTab=search&searchText=Empower+AI+&searchType=OrgAndBusNm",
   },
   {
     question: "How secure is it?",
     answer:
-      "Platforms employ encryption, authentication, and regulatory oversight to secure user data and funds.",
+      "We guarantee the security of each user account with a minimum of $100,000 USD through Allianz Trade Insurance",
   },
 ];
 
@@ -71,7 +74,18 @@ const FrequentlyAskedQuestions = () => {
                 </span>
               </div>
               {active === index && (
-                <p className="text-[rgba(255,255,255,0.7)]">{item.answer}</p>
+                <p className="text-[rgba(255,255,255,0.7)]">
+                  {item.answer}{" "}
+                  {item.link && (
+                    <a
+                      className="text-blue-500"
+                      target="_blank"
+                      href={item.link}
+                    >
+                      {item.linkText}
+                    </a>
+                  )}
+                </p>
               )}
             </div>
           ))}

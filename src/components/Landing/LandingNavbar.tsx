@@ -42,11 +42,11 @@ const LandingNavbar = () => {
               Login
             </button>
           </Link>
-          <Link href={"/register"}>
+          {/* <Link href={"/register"}>
             <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
               Signup
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </nav>

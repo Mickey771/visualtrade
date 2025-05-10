@@ -16,11 +16,12 @@ const whys = [
   {
     image: "security",
     heading: "Security of Funds",
-    text: "Trade the commodity markets with negative balance protection",
+    text:
+      "We ensure the security of each user account with a minimum of $100,000 USD through Allianz Trade Insurance",
   },
   {
     image: "excellent",
-    heading: "Excellent Community",
+    heading: "Personal Manager",
     text:
       "There is an active team behind us, and we adore communicating with our users",
   },
@@ -34,9 +35,9 @@ const WhyTradeCommodities = () => {
           Why Trade With Us?
         </h2>
         <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
-          Trade for profit, diversification, and protection against inflation,
-          leveraging their inherent value and market dynamics to fortify your
-          portfolio
+          Fortify your capital by leveraging the inherent value and market
+          dynamics of these assets to generate profit, diversify, and protect
+          against inflation.
         </p>
 
         <div className="w-full mt-10 flex flex-wrap md:flex-nowrap gap-14">
@@ -49,15 +50,15 @@ const WhyTradeCommodities = () => {
               sizes="100vw"
               style={{ width: "100%", height: "100%" }}
             />
-            <div className="absolute top-0 left-0 h-full w-full flex justify-center items-center">
+            {/* <div className="absolute top-0 left-0 h-full w-full flex justify-center items-center">
               <span className="inline-flex p-8 rounded-full text-white text-2xl bg-[rgba(25,31,46,0.7)]">
                 <FaPlay />
               </span>
-            </div>
+            </div> */}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 gap-y-8">
             {whys.map((item, index) => (
-              <div key={index} className="flex flex-col items-center gap-6">
+              <div key={index} className="flex flex-col items-center gap-5">
                 <div className="w-full max-w-[50px]">
                   <Image
                     src={`/${item.image}.png`}
@@ -68,10 +69,10 @@ const WhyTradeCommodities = () => {
                     alt={item.heading}
                   />
                 </div>
-                <h3 className="text-white text-[1.25rem] text-center md:text-left font-semibold">
+                <h3 className="text-white text-[1.25rem] text-center  font-semibold">
                   {item.heading}
                 </h3>
-                <p className="text-[rgba(255,255,255,0.7)] text-center md:text-left">
+                <p className="text-[rgba(255,255,255,0.7)] text-center ">
                   {item.text}
                 </p>
               </div>

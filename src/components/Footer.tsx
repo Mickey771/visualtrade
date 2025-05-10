@@ -4,15 +4,24 @@ import { RiTwitterXFill } from "react-icons/ri";
 import Link from "next/link";
 import { CiLocationOn } from "react-icons/ci";
 import Image from "next/image";
+import { IconType } from "react-icons";
 
-const footerData = [
+interface FooterItem {
+  heading: string;
+  items: {
+    text: string;
+    icon?: IconType;
+    path?: string;
+    phone?: boolean;
+  }[];
+}
+
+const footerData: FooterItem[] = [
   {
     heading: "Quick Links",
     items: [
       {
         text: "Home",
-        path: "",
-        icon: false,
       },
     ],
   },
@@ -22,33 +31,29 @@ const footerData = [
       {
         text: "Privacy Policy",
         path: "privacy-policy",
-        icon: false,
       },
       {
         text: "Terms of Service",
         path: "terms-of-service",
-        icon: false,
       },
     ],
   },
 
   {
-    heading: "Contact us",
+    heading: "Contact Us",
     items: [
       {
-        text: "support@visertrade.com",
+        text: "support@quantempowerai.com",
         icon: CiLocationOn,
-        path: "",
       },
       {
-        text: "+44 20 1234 5678",
+        text: "Regulated by ASIC - ",
         icon: CiLocationOn,
-        path: "",
+        phone: true,
       },
       {
         text: "68 Northbourne Ave, Canberra ACT 2601, Australia",
         icon: CiLocationOn,
-        path: "",
       },
     ],
   },
@@ -76,40 +81,10 @@ const Footer = () => {
             </Link>
 
             <p className="w-[400.36px] mt-[28px] mb-6  text-[rgba(255,255,255,0.7)] text-[15px] text-left font-normal font-['DM Sans'] leading-[30px]">
-              The company had consecutive increases in its net income throughout
-              the entirety of 2024, from last record showing an increase of 156%
-              per year.
+              The company's net income increased consistently throughout 2024,
+              with the most recent document indicating a $279 million annual
+              increase.
             </p>
-            <div className="flex gap-[12px] text-[20px] text-primaryPurple items-center">
-              <a
-                href="https://x.com/vapzersignals?s=21"
-                target="_blank"
-                className="p-2 rounded-full bg-white text-black"
-              >
-                <RiTwitterXFill />
-              </a>
-              <a
-                href="https://www.instagram.com/vapzer.ai?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr"
-                target="_blank"
-                className="p-2 rounded-full bg-white text-black"
-              >
-                <FaFacebook />
-              </a>
-              <a
-                href="https://www.instagram.com/vapzer.ai?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr"
-                target="_blank"
-                className="p-2 rounded-full bg-white text-black"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="https://www.instagram.com/vapzer.ai?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr"
-                target="_blank"
-                className="p-2 rounded-full bg-white text-black"
-              >
-                <FaInstagram />
-              </a>
-            </div>
           </div>
           <div className="text-left w-[60%] grid grid-cols-1 md:flex gap-y-[46px] gap-x-0  md:gap-[59px] ">
             {footerData.map((footerItem, index) => {
@@ -127,6 +102,22 @@ const Footer = () => {
                   <div className="w-full flex flex-col gap-[12px] mb:gap-[18px]">
                     {footerItem.items.map((item, index) => {
                       let Icon = item.icon;
+
+                      if (item.phone) {
+                        return (
+                          <p className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4 flex  items-start gap-[6px] text-wrap md:max-w-[257px]  text-[rgba(255,255,255,0.7)] text-[15px] font-normal font-dm_sans leading-tight">
+                            {item.text}{" "}
+                            <a
+                              className="text-blue-500 "
+                              target="_blank"
+                              href="https://connectonline.asic.gov.au/RegistrySearch/faces/landing/panelSearch.jspx?searchTab=search&searchText=Empower+AI+&searchType=OrgAndBusNm"
+                            >
+                              681 424 144
+                            </a>
+                          </p>
+                        );
+                      }
+
                       if (item.icon) {
                         return (
                           <p
@@ -137,6 +128,7 @@ const Footer = () => {
                           </p>
                         );
                       }
+
                       return (
                         <Link
                           className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4   font-normal font-dm_sans leading-tight text-[rgba(255,255,255,0.7)] text-[15px]"
@@ -155,8 +147,9 @@ const Footer = () => {
         </section>
         <section className="max-w-max py-[25px] mx-auto w-full flex flex-col sm:flex-row justify-center">
           <p className="text-left sm:text-right text-[rgba(255,255,255,0.7)] text-[15px]">
-            ©2025 <span className="text-[hsl(49,92%,54%)]">ViserTrade.</span>{" "}
-            All Right Reserved.
+            ©{new Date().getFullYear()}{" "}
+            <span className="text-[hsl(49,92%,54%)]">Quant Empower AI.</span>{" "}
+            All Rights Reserved.
           </p>
         </section>
       </article>

@@ -103,7 +103,7 @@ export const marketOptions: MarketOptions = {
       "TM.US",
       "NAS100",
       "FRA40",
-      "GER30",
+      "XETR",
       "US500",
       "US30",
       "UK100",

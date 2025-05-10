@@ -129,14 +129,6 @@ const LoginDetails: React.FC = () => {
               />
             </div>
           </Link>
-          <div className="h-fit flex gap-5 items-center">
-            <p className="text-white">Don't have an account?</p>
-            <Link href={"/register"}>
-              <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
-                Sign Up
-              </button>
-            </Link>
-          </div>
         </div>
 
         <h2 className="text-[2rem] mt-20 font-bold text-white">Welcome Back</h2>

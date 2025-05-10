@@ -63,7 +63,7 @@ export default function MarketsData() {
     // Indices
     "NAS100",
     "FRA40",
-    "GER30",
+    "XETR",
     "US500",
     "US30",
     "UK100",
@@ -88,7 +88,7 @@ export default function MarketsData() {
     // Indices
     NAS100: "Nasdaq 100",
     FRA40: "CAC 40",
-    GER30: "DAX",
+    XETR: "DAX",
     US500: "S&P 500",
     US30: "Dow Jones",
     UK100: "FTSE 100",
@@ -113,7 +113,7 @@ export default function MarketsData() {
     // Indices
     NAS100: "PEPPERSTONE:NAS100",
     FRA40: "FOREXCOM:FRA40",
-    GER30: "CFI:GER30",
+    XETR: "XETR:DAX",
     US500: "CAPITALCOM:US500",
     US30: "BLACKBULL:US30",
     UK100: "CAPITALCOM:UK100",

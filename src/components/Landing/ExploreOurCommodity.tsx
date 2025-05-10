@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 
@@ -162,12 +163,14 @@ const ExploreOurCommodity = () => {
                   <td className="flex items-center justify-center">
                     ${item.marketCapital}
                   </td>
-                  <button className="my-6 py-2 px-6 text-[14px] mx-auto w-fit flex items-center justify-center text-black font-semibold gap-1 rounded-[12px] bg-gradient-to-r from-[#fff3be] to-base hover:from-base hover:to-[#fff3be]">
-                    <span>
-                      <FaArrowTrendUp />
-                    </span>
-                    <span>TRADE NOW</span>
-                  </button>
+                  <Link href={"/trade"}>
+                    <button className="my-6 py-2 px-6 text-[14px] mx-auto w-fit flex items-center justify-center text-black font-semibold gap-1 rounded-[12px] bg-gradient-to-r from-[#fff3be] to-base hover:from-base hover:to-[#fff3be]">
+                      <span>
+                        <FaArrowTrendUp />
+                      </span>
+                      <span>TRADE NOW</span>
+                    </button>
+                  </Link>
                 </tr>
               ))}
             </tbody>

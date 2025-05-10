@@ -4,8 +4,8 @@ import React from "react";
 const hows = [
   {
     id: 1,
-    heading: "Sign Up",
-    text: "Start your journey by creating your free account",
+    heading: "Login",
+    text: "Start your journey by logging into your account",
     icon: "signup",
   },
   {
@@ -16,16 +16,15 @@ const hows = [
   },
   {
     id: 3,
-    heading: "Buy / Sale Commodities",
+    heading: "Start Trading",
     text:
-      "After your account verification, buy or sell your favorite commodities",
+      "Get a professional strategy/trading plan from your Personal account manager",
     icon: "buysale",
   },
   {
     id: 4,
-    heading: "Win and Earn Money",
-    text:
-      "Earn money by sale or buying commodities on our platform within a short time",
+    heading: "Earn Money",
+    text: "Earn money by trading on our platform within a short time",
     icon: "winearn",
   },
 ];
@@ -39,17 +38,19 @@ const HowToTrade = () => {
         </h2>
         <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
           Trade with trust & reliability across a range of instruments including
-          gold, silver, copper, oil, and coffee, enhancing your investment
-          strategy
+          precious metals, energies, crypto, equity investments, and FX
         </p>
 
         <div className="relative flex flex-col gap-10 mt-10 w-full max-w-[906px] mx-auto  ">
           {hows.map((item, index) => (
             <div
-              className={`w-full flex justify-between items-center ${
+              className={`relative w-full  flex justify-between items-center ${
                 index % 2 !== 0 && "flex-row-reverse"
               } `}
             >
+              <div className="absolute z-[2] w-full top-[10%] flex items-center justify-center left-0">
+                <div className="w-4 h-4 bg-base rounded-full"></div>
+              </div>
               <div className="  bg-[rgb(25,31,46)] p-5 flex flex-col gap-5 w-full items-center md:items-start lg:w-[380px] rounded-[10px]">
                 <p className="w-[56px] h-[56px] bg-base rounded-full flex justify-center items-center text-[2rem] font-semibold">
                   {item.id}
@@ -81,7 +82,7 @@ const HowToTrade = () => {
             </div>
           ))}
 
-          <div className="zr:hidden md:flex absolute top-0 left-[50%] w-[1px] h-full bg-[#495057] flex flex-col gap-[220px] justify-center ">
+          <div className="zr:hidden md:flex absolute top-0 left-[50%] -translate-x-[0.5px] w-[1px] h-full bg-[#495057] flex flex-col gap-[220px] justify-center ">
             {/* <div className="h-[15px] w-[15px] bg-base rounded-full "></div>
             <div className="h-[15px] w-[15px] bg-base rounded-full "></div>
             <div className="h-[15px] w-[15px] bg-base rounded-full "></div> */}
