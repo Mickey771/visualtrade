@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
 // Define types for form data
@@ -32,6 +33,7 @@ const LoginDetails: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -101,8 +103,8 @@ const LoginDetails: React.FC = () => {
   };
 
   return (
-    <section className="w-full h-full flex">
-      <div className="relative w-full min-h-lvh max-w-[50%]">
+    <section className="w-full h-full min-h-lvh flex">
+      <div className="zr:hidden md:flex relative w-full h-full max-w-[50%]">
         <Image
           src={"/register.png"}
           width={0}
@@ -165,14 +167,31 @@ const LoginDetails: React.FC = () => {
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="px-[24px] py-[14px] bg-[rgba(0,0,0,0.6)] border border-[rgba(0,0,0,0.2)] rounded-[8px] h-fit"
-            />
+            <div className=" pr-4 flex gap-2 items-center bg-[rgba(0,0,0,0.6)] border border-[rgba(0,0,0,0.2)] rounded-[8px] h-fit">
+              <input
+                type={`${isPasswordVisible ? "text" : "password"}`}
+                name="password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="px-[24px] py-[14px] focus:outline-none bg-transparent w-full"
+              />
+              <button
+                className=""
+                type="button"
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
+              >
+                {isPasswordVisible ? (
+                  <span>
+                    <BsEye size={23} />
+                  </span>
+                ) : (
+                  <span>
+                    <BsEyeSlash size={23} />
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="flex justify-end">

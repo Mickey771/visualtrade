@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-const reviews = [
+const originalReviews = [
   {
     image: "shane",
     name: "Shane Smith",
@@ -41,39 +41,125 @@ const reviews = [
   },
 ];
 
-interface Review {
-  image: string;
-  name: string;
-  username: string;
-  text: string;
-}
-
 const DontTake = () => {
-  const [modifiedReviews, setModifiedReviews] = useState<Review[]>(reviews);
-  const [position, setPosition] = useState(0);
-  const [currIndex, setCurrIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Build a triple-sized array for infinite scroll effect
+  const reviews = [...originalReviews, ...originalReviews, ...originalReviews];
+  const startIndex = originalReviews.length; // Start in the middle set
+
+  // Initialize item refs
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      let newReviews = modifiedReviews;
+    itemsRef.current = itemsRef.current.slice(0, reviews.length);
+  }, [reviews.length]);
 
-      newReviews.push(newReviews[currIndex]);
+  // Center the active review
+  const centerActiveReview = (index: number) => {
+    if (!containerRef.current) return;
 
-      setModifiedReviews(newReviews);
+    const container = containerRef.current;
+    const activeItem = itemsRef.current[startIndex + index];
 
-      console.log(modifiedReviews);
+    if (!activeItem) return;
 
-      setPosition((prev) => prev + 450);
-      setCurrIndex((prev) => prev + 1);
-    }, 2000);
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = activeItem.getBoundingClientRect();
 
-    return () => clearTimeout(timeout);
-  }, [position]);
+    // Calculate the center points
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    const itemCenter = itemRect.left + itemRect.width / 2;
+
+    // Calculate the offset needed to center
+    const offset = containerCenter - itemCenter;
+
+    // Update translateX
+    setTranslateX((prev) => prev + offset);
+  };
+
+  // Initialize positioning
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      centerActiveReview(currentIndex);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Handle transition end - for infinite scroll reset
+  const handleTransitionEnd = () => {
+    // If we're at the end of a set, jump to the equivalent position in the middle set
+    if (currentIndex >= originalReviews.length) {
+      // Disable transitions temporarily
+      const carousel = document.querySelector(".carousel") as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = "none";
+      }
+
+      // Reset to the equivalent position in the middle set
+      setCurrentIndex(currentIndex % originalReviews.length);
+
+      // Force browser reflow to make the transition removal take effect
+      carousel?.offsetHeight;
+
+      // Re-enable transitions
+      setTimeout(() => {
+        if (carousel) {
+          carousel.style.transition =
+            "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
+        }
+      }, 10);
+    }
+
+    // If we're at the beginning, jump to the equivalent position in the middle set
+    if (currentIndex < 0) {
+      // Same process for backwards movement
+      const carousel = document.querySelector(".carousel") as HTMLElement;
+      if (carousel) {
+        carousel.style.transition = "none";
+      }
+
+      setCurrentIndex(
+        originalReviews.length + (currentIndex % originalReviews.length)
+      );
+
+      carousel?.offsetHeight;
+
+      setTimeout(() => {
+        if (carousel) {
+          carousel.style.transition =
+            "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
+        }
+      }, 10);
+    }
+  };
+
+  // Go to next or previous review
+  const goToReview = (direction: "prev" | "next") => {
+    const newIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+  };
+
+  // Update positioning when current index changes
+  useEffect(() => {
+    centerActiveReview(currentIndex);
+  }, [currentIndex]);
+
+  // Auto-rotation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      goToReview("next");
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [currentIndex]);
 
   return (
-    <section className="py-[50px] md:py-[100px] lg:py-[150px] bg-[hsl(222,65%,8%)]">
-      <div className="w-full px-6 lg:px-0 max-w-max mx-auto flex flex-col items-center">
-        <h2 className="text-center text-[1.5rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white">
+    <section className="py-12 md:py-20 lg:py-32 bg-[hsl(222,65%,8%)]">
+      <div className="w-full px-6 lg:px-0 max-w-6xl mx-auto flex flex-col items-center">
+        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-white">
           Don't take our words
         </h2>
         <p className="font-normal mt-5 text-sm md:text-base text-[rgba(255,255,255,0.7)] text-center max-w-[800px]">
@@ -81,30 +167,83 @@ const DontTake = () => {
           listen to our successful traders
         </p>
 
-        <div className="w-full overflow-x-hidden ">
+        <div
+          ref={containerRef}
+          className="w-full mt-12 overflow-hidden py-10 relative"
+        >
           <div
+            className="carousel flex px-4 gap-5 md:gap-8 transition-transform duration-800 ease-in-out"
             style={{
-              transform: `translateX(-${position}px)`,
-              transition: "transform 1.2s ease-in-out", // Added smooth transition
+              transform: `translateX(${translateX}px)`,
+              transition: "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)",
             }}
-            className="flex px-10 mt-20 gap-5 md:gap-10"
+            onTransitionEnd={handleTransitionEnd}
           >
-            {modifiedReviews.map((item, index) => (
-              <div
-                key={`${item.name}-${index}`}
-                className="min-w-[450px] w-full bg-[rgb(25,31,46)] py-10 px-5 rounded-[6px] text-white flex flex-col items-center"
-              >
-                <img
-                  src={`/${item.image}.png`}
-                  alt={item.name}
-                  className="rounded-full"
-                />
-                <h3 className="mt-4 text-[1.125rem] font-bold">{item.name}</h3>
-                {/* <p className="mt-1 text-[rgba(255,255,255,0.6)]">
-                  @{item.username}
-                </p> */}
-                <p className="mt-6 text-center">{item.text}</p>
-              </div>
+            {reviews.map((item, index) => {
+              // Calculate if this item is active
+              const isMiddleSet =
+                index >= originalReviews.length &&
+                index < originalReviews.length * 2;
+              const indexInSet = index % originalReviews.length;
+              const isActive =
+                isMiddleSet &&
+                indexInSet === currentIndex % originalReviews.length;
+
+              return (
+                <div
+                  key={`${item.name}-${index}`}
+                  ref={(el) => (itemsRef.current[index] = el) as any}
+                  className={`min-w-[280px] md:min-w-[350px] lg:min-w-[400px] py-8 px-5 rounded-lg flex flex-col items-center transition-all duration-300 ${
+                    isActive
+                      ? "bg-[rgb(30,38,56)] scale-105 shadow-lg"
+                      : "bg-[rgb(25,31,46)] opacity-70"
+                  }`}
+                >
+                  <img
+                    src={`/${item.image}.png`}
+                    alt={item.name}
+                    className="w-16 h-16 rounded-full"
+                  />
+                  <h3 className="mt-4 text-lg font-bold text-white">
+                    {item.name}
+                  </h3>
+                  <p className="mt-4 text-center text-white">{item.text}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Navigation controls */}
+          <div className="flex justify-between absolute top-1/2 left-0 right-0 -mt-6 px-2 md:px-4">
+            <button
+              onClick={() => goToReview("prev")}
+              className="bg-[rgba(0,0,0,0.5)] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[rgba(0,0,0,0.7)] transition-all z-10"
+              aria-label="Previous review"
+            >
+              ←
+            </button>
+            <button
+              onClick={() => goToReview("next")}
+              className="bg-[rgba(0,0,0,0.5)] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[rgba(0,0,0,0.7)] transition-all z-10"
+              aria-label="Next review"
+            >
+              →
+            </button>
+          </div>
+
+          {/* Navigation dots */}
+          <div className="flex justify-center mt-8 gap-2">
+            {originalReviews.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  currentIndex % originalReviews.length === index
+                    ? "bg-white scale-125"
+                    : "bg-gray-500"
+                }`}
+                aria-label={`Go to review ${index + 1}`}
+              />
             ))}
           </div>
         </div>

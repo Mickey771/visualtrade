@@ -80,13 +80,13 @@ const Footer = () => {
               </div>
             </Link>
 
-            <p className="w-[400.36px] mt-[28px] mb-6  text-[rgba(255,255,255,0.7)] text-[15px] text-left font-normal font-['DM Sans'] leading-[30px]">
+            <p className="md:w-[400.36px] mt-[28px] mb-6  text-[rgba(255,255,255,0.7)] text-[15px] text-left font-normal font-['DM Sans'] leading-[30px]">
               The company's net income increased consistently throughout 2024,
               with the most recent document indicating a $279 million annual
               increase.
             </p>
           </div>
-          <div className="text-left w-[60%] grid grid-cols-1 md:flex gap-y-[46px] gap-x-0  md:gap-[59px] ">
+          <div className="text-left md:w-[60%] grid grid-cols-1 md:flex gap-y-[46px] gap-x-0  md:gap-[59px] ">
             {footerData.map((footerItem, index) => {
               return (
                 <div
@@ -99,14 +99,14 @@ const Footer = () => {
                   <h2 className="text-white w-full text-lg font-bold font-dm_sans leading-snug border-b  border-[rgba(255,255,255,0.1)] pb-4">
                     {footerItem.heading}
                   </h2>
-                  <div className="w-full flex flex-col gap-[12px] mb:gap-[18px]">
+                  <div className="w-full flex  flex-col gap-[12px] mb:gap-[18px]">
                     {footerItem.items.map((item, index) => {
                       let Icon = item.icon;
 
                       if (item.phone) {
                         return (
-                          <p className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4 flex  items-start gap-[6px] text-wrap md:max-w-[257px]  text-[rgba(255,255,255,0.7)] text-[15px] font-normal font-dm_sans leading-tight">
-                            {item.text}{" "}
+                          <p className="w-full lg:max-w-[250px] border-b  border-[rgba(255,255,255,0.1)] pb-4 flex flex-wrap items-start gap-[6px] text-wrap md:max-w-[257px]  text-[rgba(255,255,255,0.7)] text-[15px] font-normal font-dm_sans leading-tight">
+                            <span>{item.text}</span>{" "}
                             <a
                               className="text-blue-500 "
                               target="_blank"
