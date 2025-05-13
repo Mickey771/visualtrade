@@ -32,6 +32,10 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     (store: RootState) => store.trade
   );
 
+  const {
+    user: { balance, credit },
+  } = useSelector((store: RootState) => store.user);
+
   const closePositionModal = useDisclosure();
   const dispatch = useDispatch();
 

@@ -56,6 +56,13 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    setBalance: (state, action: PayloadAction<number>) => {
+      state.user = { ...state.user, balance: action.payload };
+    },
+    setCredit: (state, action: PayloadAction<number>) => {
+      state.user = { ...state.user, credit: action.payload };
+    },
+
     logout: (state) => {
       state.isAuth = false;
       state.user = {
@@ -91,5 +98,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { setAuth, setUser, logout } = userSlice.actions;
+export const {
+  setAuth,
+  setUser,
+  setBalance,
+  setCredit,
+  logout,
+} = userSlice.actions;
 export default userSlice.reducer;
