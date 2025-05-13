@@ -22,19 +22,19 @@ const originalReviews = [
       "I am thoroughly impressed by the efficiency and ease of the withdrawal process, which was completed with exceptional promptness",
   },
   {
-    image: "shane",
+    image: "manp",
     name: "Ben Curtis",
     username: "curtis",
     text: "Transparent fees and steady returns, a very trustworthy platform",
   },
   {
-    image: "david",
+    image: "mand",
     name: "Shane Cooper",
     username: "curtis",
     text: "Great customer support - quick, clear, and helpful every time",
   },
   {
-    image: "alixha",
+    image: "manb",
     name: "Daniel Bones",
     username: "curtis",
     text: "Lots of tools and real-time data - helps me trade smarter",
@@ -158,7 +158,7 @@ const DontTake = () => {
 
   return (
     <section className="py-12 md:py-20 lg:py-32 bg-[hsl(222,65%,8%)]">
-      <div className="w-full px-6 lg:px-0 max-w-6xl mx-auto flex flex-col items-center">
+      <div className="w-full px-6 lg:px-0 max-w-[1300px] mx-auto flex flex-col items-center">
         <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-white">
           Don't take our words
         </h2>
@@ -202,7 +202,7 @@ const DontTake = () => {
                   <img
                     src={`/${item.image}.png`}
                     alt={item.name}
-                    className="w-16 h-16 rounded-full"
+                    className="w-16 h-16 rounded-full object-cover"
                   />
                   <h3 className="mt-4 text-lg font-bold text-white">
                     {item.name}

@@ -10,9 +10,14 @@ const PlaceTrade: React.FC<{
   fetchTransactions: (page: number) => Promise<void>;
   currentPage: number;
 }> = ({ fetchTransactions, currentPage }) => {
+  const { trade, user } = useSelector((store: RootState) => store);
+  const {
+    user: { balance, access, credit },
+  } = user;
+
   // State management
   const [activeTab, setActiveTab] = useState("open");
-  const [quantity, setQuantity] = useState(50000);
+  const [quantity, setQuantity] = useState(balance + credit);
   const [margin, setMargin] = useState(257);
   const [leverage, setLeverage] = useState(200);
   const [change, setChange] = useState(-0.3);
@@ -24,11 +29,7 @@ const PlaceTrade: React.FC<{
   const [limitPrice, setLimitPrice] = useState("");
 
   // Get data from Redux store
-  const { trade, user } = useSelector((store: RootState) => store);
   const { selectedFeed, selectedPair, isLoading, selectedPairPrice } = trade;
-  const {
-    user: { balance, access, credit },
-  } = user;
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -38,13 +39,13 @@ const PlaceTrade: React.FC<{
     if (quantity >= balance + credit) {
       newQuantity = balance + credit;
     } else {
-      newQuantity = quantity + balance / 100;
+      newQuantity = quantity + (balance + credit) / 100;
     }
     // Calculate new margin to check against balance
     const newMargin = Math.round((newQuantity / leverage) * 0.01);
 
     // Only allow increase if user has sufficient balance
-    if (newMargin <= balance) {
+    if (newMargin <= balance + credit) {
       setQuantity(newQuantity);
       updateMarginFromQuantity(newQuantity);
     } else {
@@ -54,8 +55,8 @@ const PlaceTrade: React.FC<{
   };
 
   const decreaseQuantity = () => {
-    if (quantity > balance / 100) {
-      const newQuantity = quantity - balance / 100;
+    if (quantity > (balance + credit) / 100) {
+      const newQuantity = quantity - (balance + credit) / 100;
       setQuantity(newQuantity);
       updateMarginFromQuantity(newQuantity);
     }
@@ -79,6 +80,11 @@ const PlaceTrade: React.FC<{
     // Clear previous messages
     setErrorMessage("");
     setSuccessMessage("");
+
+    if (quantity === 0) {
+      setErrorMessage("increase quantity");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -249,7 +255,7 @@ const PlaceTrade: React.FC<{
               name="quantity"
               value={quantity.toFixed(2)}
               onChange={(e) => {
-                if (parseInt(e.target.value) > balance) {
+                if (parseInt(e.target.value) > balance + credit) {
                   setQuantity(balance + credit);
                   return;
                 }

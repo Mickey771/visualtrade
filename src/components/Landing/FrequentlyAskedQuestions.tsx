@@ -4,7 +4,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 const faqs = [
   {
     question: "What can be traded?",
-    answer: "Stocks, commodities, precious metalss, cryptocurrency, and FX",
+    answer: "Stocks, commodities, precious metals, cryptocurrency, and FX",
   },
   {
     question: "How fast is the withdrawal process?",

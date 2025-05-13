@@ -22,6 +22,7 @@ const footerData: FooterItem[] = [
     items: [
       {
         text: "Home",
+        path: "/",
       },
     ],
   },

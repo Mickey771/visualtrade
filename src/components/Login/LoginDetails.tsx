@@ -194,13 +194,13 @@ const LoginDetails: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <Link href="/forgot-password">
               <span className="text-base hover:underline cursor-pointer">
                 Forgot Password?
               </span>
             </Link>
-          </div>
+          </div> */}
 
           <button
             type="submit"
