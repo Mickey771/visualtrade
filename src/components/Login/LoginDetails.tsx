@@ -34,6 +34,7 @@ const LoginDetails: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isResetRequest, setIsResetRequest] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -194,13 +195,19 @@ const LoginDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* <div className="flex justify-end">
-            <Link href="/forgot-password">
+          <div className="flex justify-end">
+            <button type="button" onClick={() => setIsResetRequest(true)}>
               <span className="text-base hover:underline cursor-pointer">
                 Forgot Password?
               </span>
-            </Link>
-          </div> */}
+            </button>
+          </div>
+
+          {isResetRequest && (
+            <p className="text-[1rem] mt-5 text-white">
+              Kindly reach out to your admin to reset your password
+            </p>
+          )}
 
           <button
             type="submit"

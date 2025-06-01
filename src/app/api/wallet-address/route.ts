@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
     // Forward the request to the external API with the token
     const response = await fetch(
-      "https://trade-backend-production-3684.up.railway.app/account/requests/admin_address/",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/account/requests/admin_address/`,
       {
         method: "GET",
         headers: {

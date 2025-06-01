@@ -160,7 +160,9 @@ const ClosePositionModal: React.FC<ModalProps> = ({ modal }) => {
               meta_data: {
                 ...transaction.meta_data,
                 closedAt: currentPrice?.toString(),
-                profitLoss: profitLoss?.amount,
+                profitLoss:
+                  (profitLoss?.amount || 0) +
+                  parseInt(transaction.meta_data.boughtAt),
                 profitLossPercentage: profitLoss?.percentage,
               },
             }
