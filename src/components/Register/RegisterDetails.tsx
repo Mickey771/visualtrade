@@ -140,7 +140,7 @@ const RegisterDetails: React.FC = () => {
 
   return (
     <section className="w-full h-full flex">
-      <div className="w-full relative min-h-lvh max-w-[50%]">
+      <div className="zr:hidden md:flex w-full relative min-h-lvh max-w-[50%]">
         <Image
           src={"/register.png"}
           width={0}
@@ -153,7 +153,7 @@ const RegisterDetails: React.FC = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-[#00000061]"></div>
       </div>
 
-      <div className="p-10 bg-[hsl(222,65%,8%)] w-full">
+      <div className="min-h-lvh p-6 md:p-10 bg-[hsl(222,65%,8%)] w-full">
         <div className="flex justify-between w-full">
           <Link href={"/"}>
             <div className="w-full h-fit max-w-[200px]">
@@ -168,7 +168,9 @@ const RegisterDetails: React.FC = () => {
             </div>
           </Link>
           <div className="h-fit flex gap-5 items-center">
-            <p className="text-white">Already have an account?</p>
+            <p className="zr:hidden md:flex text-white">
+              Already have an account?
+            </p>
             <Link href={"/login"}>
               <button className="bg-base text-black text-sm md:text-[16px] py-2 md:py-3 px-[20px] md:px-[30px] lg:px-[40px] hover:opacity-85 font-semibold rounded-[8px]">
                 Sign In
@@ -198,7 +200,7 @@ const RegisterDetails: React.FC = () => {
           onSubmit={handleSubmit}
           className="mt-10 text-white flex flex-col gap-8"
         >
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10">
             <div className="flex flex-col gap-3">
               <label htmlFor="firstname">First Name</label>
               <input
@@ -233,7 +235,7 @@ const RegisterDetails: React.FC = () => {
               className="px-[24px] py-[14px] bg-[rgba(0,0,0,0.6)] border border-[rgba(0,0,0,0.2)] rounded-[8px] h-fit"
             />
           </div>
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="flex flex-col gap-3">
               <label htmlFor="password">Password</label>
               <input
@@ -257,7 +259,7 @@ const RegisterDetails: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <input
               type="checkbox"
               name="terms"
@@ -265,10 +267,10 @@ const RegisterDetails: React.FC = () => {
               checked={formData.terms}
               onChange={handleChange}
             />
-            <p>
-              I agree with <span className="text-base">Privacy Policy </span>,{" "}
-              <span className="text-base">Terms of Service </span>,{" "}
-              <span className="text-base">Trading Policy</span>
+            <p className="text-xs md:text-base">
+              I agree with <span className="">Privacy Policy </span>,{" "}
+              <span className="">Terms of Service </span>,{" "}
+              <span className="">Trading Policy</span>
             </p>
           </div>
 

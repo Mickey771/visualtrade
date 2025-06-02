@@ -65,7 +65,7 @@ const SocialLinks = () => {
           <a
             target="_blank"
             href={telegramLink}
-            className="fixed bottom-10 left-10 bg-white rounded-full  text-[#6ca6e4] w-fit text-3xl md:text-6xl"
+            className="fixed bottom-10 left-10 bg-white rounded-full  text-[#6ca6e4] w-fit text-5xl md:text-6xl"
           >
             <BsTelegram className="" />
           </a>

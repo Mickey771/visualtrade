@@ -105,7 +105,7 @@ const LoginDetails: React.FC = () => {
 
   return (
     <section className="w-full h-full flex">
-      <div className="w-full relative min-h-lvh max-w-[50%]">
+      <div className="zr:hidden md:flex w-full relative min-h-lvh max-w-[50%]">
         <Image
           src={"/register.png"}
           width={0}
@@ -118,7 +118,7 @@ const LoginDetails: React.FC = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-[#00000061]"></div>
       </div>
 
-      <div className="p-10 bg-[hsl(222,65%,8%)] w-full">
+      <div className="h-lvh p-6 md:p-10 bg-[hsl(222,65%,8%)] w-full">
         <div className="flex justify-between w-full">
           <Link href={"/"}>
             <div className="w-full h-fit max-w-[200px]">
