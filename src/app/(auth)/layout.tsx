@@ -9,10 +9,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="w-full overflow-hidden">
-      <LandingNavbar />
+    <>
       {children}
-      <Footer />
-    </div>
+      <SocialLinks />
+    </>
   );
 }

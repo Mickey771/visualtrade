@@ -104,8 +104,8 @@ const LoginDetails: React.FC = () => {
   };
 
   return (
-    <section className="w-full h-full min-h-lvh flex">
-      <div className="zr:hidden md:flex relative w-full h-full max-w-[50%]">
+    <section className="w-full h-full flex">
+      <div className="w-full relative min-h-lvh max-w-[50%]">
         <Image
           src={"/register.png"}
           width={0}
