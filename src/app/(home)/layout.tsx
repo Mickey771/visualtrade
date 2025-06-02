@@ -2,7 +2,6 @@
 import Footer from "@/components/Footer";
 import LandingNavbar from "@/components/Landing/LandingNavbar";
 import { useEffect, useState } from "react";
-import { FloatingWhatsApp } from "react-floating-whatsapp";
 import { BsTelegram } from "react-icons/bs";
 import {
   FaPersonWalkingDashedLineArrowRight,
@@ -67,11 +66,7 @@ export default function RootLayout({
     <div className="w-full overflow-hidden">
       <LandingNavbar />
       {children}
-      {/* <FloatingWhatsApp
-        accountName={"Quant AI"}
-        phoneNumber="XXXXXXXXXX"
-        avatar="/logo.png"
-      /> */}
+
       {!loading && (
         <>
           <a
