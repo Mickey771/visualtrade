@@ -286,7 +286,12 @@ const PlaceTrade: React.FC<{
         )}
 
         <button
-          disabled={isLoading || isSubmitting || margin > balance}
+          disabled={
+            isLoading ||
+            isSubmitting ||
+            margin > (balance + credit) ||
+            (balance + credit) <= 0
+          }
           className="w-full flex justify-between mt-8 px-3 py-2 bg-blue-500 shadow-lg disabled:opacity-70 rounded-md hover:bg-blue-600 active:bg-blue-700 transition-colors duration-200"
           onMouseEnter={() => setIsHoveringBuy(true)}
           onMouseLeave={() => setIsHoveringBuy(false)}
@@ -299,7 +304,7 @@ const PlaceTrade: React.FC<{
         </button>
 
         <button
-          disabled={isLoading || isSubmitting || margin > balance}
+          disabled={isLoading || isSubmitting || margin > (balance + credit) || (balance + credit) <= 0}
           className="w-full flex justify-between mt-6 px-3 py-2 bg-blue-500 shadow-lg disabled:opacity-70 rounded-md hover:bg-blue-600 active:bg-blue-700 transition-colors duration-200"
           onMouseEnter={() => setIsHoveringSell(true)}
           onMouseLeave={() => setIsHoveringSell(false)}
